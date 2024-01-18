@@ -190,7 +190,7 @@ div.csl-indent {
 <li><p>remove unnecessary columns</p></li>
 <li><p>clean headers for machine readability</p></li>
 </ol>
-<p>IFPI data requires more tidying as webscraping is site-dependent-meaning the data is less structured.</p>
+<p>IFPI data requires more tidying as webscraping is site-dependent: the data is less structured.</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
@@ -542,7 +542,10 @@ div.csl-indent {
 <h2 class="anchored" data-anchor-id="part-ii">Part II</h2>
 <section id="a.-r-shiny-interactive-dashboard" class="level3">
 <h3 class="anchored" data-anchor-id="a.-r-shiny-interactive-dashboard">A. R Shiny interactive dashboard</h3>
-<p>The following diagram is suitable for showcasing whether specific audio features correlates with popularity under different cultural contexts. It is note worthy that Asian countries, such as Japan and South Korea, have a lot less explicit songs in their top 50 list compared to European and American countries.</p>
+<p>The following diagram is suitable for showcasing whether specific audio features correlates with <code>popularity</code> under different cultural contexts.</p>
+<ul>
+<li>It is note worthy that Asian countries, such as Japan and South Korea, have a lot less explicit songs in their top 50 list compared to European and American countries.</li>
+</ul>
 <div class="panel-grid layout-sidebar ms-md-0 layout-sidebar-left">
 <div class="cell panel-sidebar card bg-light p-2 g-col-24 g-col-lg-7">
 <details>
@@ -622,6 +625,10 @@ div.csl-indent {
 <div class="panel-fill panel-grid g-col-24 g-col-lg-17 pt-3 pt-lg-0">
 <div class="g-col-24">
 <div class="cell panel-fill">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotlyOutput</span>(<span class="st">'audio_features'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div class="plotly html-widget html-widget-output shiny-report-size shiny-report-theme html-fill-item" id="audio_features" style="width:100%;height:400px;"></div>
 </div>
@@ -634,11 +641,11 @@ div.csl-indent {
 <div class="cell panel-sidebar card bg-light p-2 g-col-24 g-col-lg-7">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#input for radar plot</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">selectInput</span>(<span class="st">"radar_country"</span>, <span class="at">label =</span> <span class="fu">h3</span>(<span class="st">"Select a country to view mean audio features"</span>), </span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">choices =</span> <span class="fu">unique</span>(wrangled_tophits<span class="sc">$</span>country), </span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">selected =</span> <span class="st">"Japan"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#input for radar plot</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">selectInput</span>(<span class="st">"radar_country"</span>, <span class="at">label =</span> <span class="fu">h3</span>(<span class="st">"Select a country to view mean audio features"</span>), </span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">choices =</span> <span class="fu">unique</span>(wrangled_tophits<span class="sc">$</span>country), </span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">selected =</span> <span class="st">"Japan"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display no-overflow-x">
 <div class="form-group shiny-input-container">
@@ -660,6 +667,10 @@ div.csl-indent {
 <div class="panel-fill panel-grid g-col-24 g-col-lg-17 pt-3 pt-lg-0">
 <div class="g-col-24">
 <div class="cell panel-fill">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotOutput</span>(<span class="st">'radar_chart'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div class="shiny-plot-output html-fill-item" id="radar_chart" style="width:100%;height:400px;"></div>
 </div>
@@ -671,8 +682,8 @@ div.csl-indent {
 <div class="cell panel-sidebar card bg-light p-2 g-col-24 g-col-lg-7">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sliderInput</span>(<span class="st">"yearslider"</span>, <span class="at">label =</span> <span class="fu">h3</span>(<span class="st">"Select year"</span>), <span class="at">min =</span> <span class="dv">2011</span>, </span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">max =</span> <span class="dv">2017</span>, <span class="at">value =</span> <span class="dv">2011</span>,<span class="at">round =</span> <span class="cn">TRUE</span>,<span class="at">sep =</span> <span class="st">""</span>,<span class="at">animate =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sliderInput</span>(<span class="st">"yearslider"</span>, <span class="at">label =</span> <span class="fu">h3</span>(<span class="st">"Select year"</span>), <span class="at">min =</span> <span class="dv">2011</span>, </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">max =</span> <span class="dv">2017</span>, <span class="at">value =</span> <span class="dv">2011</span>,<span class="at">round =</span> <span class="cn">TRUE</span>,<span class="at">sep =</span> <span class="st">""</span>,<span class="at">animate =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="form-group shiny-input-container">
@@ -698,7 +709,7 @@ div.csl-indent {
 <div class="cell panel-fill">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotOutput</span>(<span class="st">'musicmarket'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotOutput</span>(<span class="st">'musicmarket'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="shiny-plot-output html-fill-item" id="musicmarket" style="width:100%;height:400px;"></div>
@@ -707,10 +718,22 @@ div.csl-indent {
 </div>
 </div>
 </div>
+<p>An animated version can be found below.</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotOutput</span>(<span class="st">'musicmarketanimation'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># follow the following steps to view the animation- since animation can't be embedded into rendered dashboard, Manually running it in r studio is needed.</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. open the .qmd file in R-studio without rendering it</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. scroll to the bottom and run the server code chunk, ignore the error message- this step is done to import the wrangled data into the environment</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. select and run the following code to view animation in the Viewer panel. It may take around 30 seconds to render.</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>IFPI_graph<span class="ot">=</span> wrangled_IFPI_data<span class="sc">%&gt;%</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="st">`</span><span class="at">physical_percentage</span><span class="st">`</span>, <span class="at">y=</span>digital_percentage,<span class="at">color=</span>market,<span class="at">size=</span>retail_value_us_millions))<span class="sc">+</span><span class="fu">geom_point</span>()<span class="sc">+</span><span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Global Music Market from 2011 to 2017"</span>,<span class="at">x=</span><span class="st">"Physical Percentage"</span>,<span class="at">y=</span><span class="st">"Digital Percentage"</span>,<span class="at">size=</span><span class="st">"Total retail Value in US$ millions"</span>)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>IFPI_graph.animation<span class="ot">=</span>IFPI_graph<span class="sc">+</span><span class="fu">transition_time</span>(year)<span class="sc">+</span><span class="fu">labs</span>(<span class="at">subtitle=</span><span class="st">"Year: {frame_time}"</span>)<span class="sc">+</span><span class="fu">shadow_wake</span>(<span class="at">wake_length =</span> <span class="fl">0.2</span>)</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="fu">animate</span>(IFPI_graph.animation, <span class="at">renderer =</span> <span class="fu">gifski_renderer</span>(),<span class="at">fps=</span><span class="dv">15</span>,<span class="at">duration=</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -725,63 +748,63 @@ div.csl-indent {
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This is ChatGpt's first advice</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co"># The error "replacement has length zero" typically occurs when trying to replace values in a vector or a subset of a vector with another vector, and the replacement vector has zero length. This can happen when the replacement vector is empty or not provided correctly.</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># In the context of the `geniusr` package and the error message you provided, it seems like there might be an issue with the data returned by the `get_lyrics_search` function. The code may be attempting to assign values to the `section_artist` vector, but the replacement (`artist`) is empty or not available.</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Here's a general approach to troubleshoot and handle such issues:</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. **Check the `get_lyrics_search` Result:**</span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="co">#    Before attempting to process the data, check the result returned by `get_lyrics_search` to understand what information is available and if it contains the necessary fields.</span></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>   lyrics_data <span class="ot">&lt;-</span> <span class="fu">get_lyrics_search</span>(<span class="st">"Kenya Grace"</span>, <span class="st">"Strangers"</span>)</span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>   <span class="fu">print</span>(lyrics_data)</span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>   </span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. **Inspect Data Structure:**</span></span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="co">#    Examine the structure of `lyrics_data` to ensure it has the expected columns and values. You can use functions like</span></span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(lyrics_data) </span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lyrics_data) </span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="co"># to inspect the data.</span></span>
-<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. **Check Variable Names:**</span></span>
-<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a><span class="co">#    Ensure that the variable names used in your code (e.g., `section_artist`, `artist`) correspond to the actual columns in the data returned by `get_lyrics_search`.</span></span>
-<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a><span class="co"># If the issue persists, you may want to share more details about the code snippet where the error occurs, or check the documentation and examples provided by the `geniusr` package. Additionally, consider reac`hing out to the package's maintainers or community for assistance.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This is ChatGpt's first advice</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># The error "replacement has length zero" typically occurs when trying to replace values in a vector or a subset of a vector with another vector, and the replacement vector has zero length. This can happen when the replacement vector is empty or not provided correctly.</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># In the context of the `geniusr` package and the error message you provided, it seems like there might be an issue with the data returned by the `get_lyrics_search` function. The code may be attempting to assign values to the `section_artist` vector, but the replacement (`artist`) is empty or not available.</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Here's a general approach to troubleshoot and handle such issues:</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. **Check the `get_lyrics_search` Result:**</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co">#    Before attempting to process the data, check the result returned by `get_lyrics_search` to understand what information is available and if it contains the necessary fields.</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>   lyrics_data <span class="ot">&lt;-</span> <span class="fu">get_lyrics_search</span>(<span class="st">"Kenya Grace"</span>, <span class="st">"Strangers"</span>)</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>   <span class="fu">print</span>(lyrics_data)</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. **Inspect Data Structure:**</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="co">#    Examine the structure of `lyrics_data` to ensure it has the expected columns and values. You can use functions like</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(lyrics_data) </span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lyrics_data) </span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a><span class="co"># to inspect the data.</span></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. **Check Variable Names:**</span></span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a><span class="co">#    Ensure that the variable names used in your code (e.g., `section_artist`, `artist`) correspond to the actual columns in the data returned by `get_lyrics_search`.</span></span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a><span class="co"># If the issue persists, you may want to share more details about the code snippet where the error occurs, or check the documentation and examples provided by the `geniusr` package. Additionally, consider reac`hing out to the package's maintainers or community for assistance.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>Non of the three solution was specific to the error concerning the package. Upon further questioning it advised me to inspect the validity of my API token:</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ChatGPT's second advice</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co">#It seems like you're referring to a specific R package or library named geniusr that is designed to interact with the Genius API. Based on the information provided, it appears that the library follows a standard process for authenticating and retrieving data from the Genius API.</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Set Up Environment Variable:</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Set up an environment variable named GENIUS_API_TOKEN.</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Assign the generated client access token as the value of the environment variable.</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co"># In R, you can set an environment variable using the Sys.setenv() function:</span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.setenv</span>(<span class="at">GENIUS_API_TOKEN =</span> <span class="st">"your_generated_access_token"</span>)</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co">#Alternatively, you can set the environment variable outside of your R script or session in your system environment variables.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ChatGPT's second advice</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co">#It seems like you're referring to a specific R package or library named geniusr that is designed to interact with the Genius API. Based on the information provided, it appears that the library follows a standard process for authenticating and retrieving data from the Genius API.</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Set Up Environment Variable:</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Set up an environment variable named GENIUS_API_TOKEN.</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Assign the generated client access token as the value of the environment variable.</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co"># In R, you can set an environment variable using the Sys.setenv() function:</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.setenv</span>(<span class="at">GENIUS_API_TOKEN =</span> <span class="st">"your_generated_access_token"</span>)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="co">#Alternatively, you can set the environment variable outside of your R script or session in your system environment variables.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>which was not the problem as the package was able to perform other functions such as</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># my test run of example code in the package</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">search_artist</span>(<span class="st">'taylor swift'</span>)</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co">#output</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># A tibble: 1 × 3</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co">#   artist_id artist_name  artist_url                             </span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co">#       &lt;int&gt; &lt;chr&gt;        &lt;chr&gt;                                  </span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 1      1177 Taylor Swift https://genius.com/artists/Taylor-swift</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co"># After further research on  [stackoverflow](https://stackoverflow.com/questions/76565068/geniusr-package-problem-with-get-lyrics-function), and running exemplar code on the wrapper's [github page](https://ewenme.github.io/geniusr/), I found that the problem was likely related to changes in API rather than my code, and had to resort to scraping other data source. </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># my test run of example code in the package</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">search_artist</span>(<span class="st">'taylor swift'</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co">#output</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># A tibble: 1 × 3</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co">#   artist_id artist_name  artist_url                             </span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co">#       &lt;int&gt; &lt;chr&gt;        &lt;chr&gt;                                  </span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 1      1177 Taylor Swift https://genius.com/artists/Taylor-swift</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="co"># After further research on  [stackoverflow](https://stackoverflow.com/questions/76565068/geniusr-package-problem-with-get-lyrics-function), and running exemplar code on the wrapper's [github page](https://ewenme.github.io/geniusr/), I found that the problem was likely related to changes in API rather than my code, and had to resort to scraping other data source. </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>ChatGPT didn’t solve the error or identified the infeasibility of the package (it insisted the package was workable). It is not suitable for solving problems related to contextual errors such as the ones related to API changes or less well-known packages.</p>
@@ -789,71 +812,71 @@ div.csl-indent {
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This was my original code based on example code in the country code package</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>wrangled_tophits<span class="sc">$</span>country <span class="ot">&lt;-</span> <span class="fu">countrycode</span>(wrangled_tophits<span class="sc">$</span>country, <span class="at">origin =</span> <span class="st">'country'</span>, <span class="at">destination =</span> <span class="st">'country.name.en'</span>) </span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Error in countrycode(wrangled_tophits$country, origin = "country", destination = "country.name.en") : </span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   The `origin` argument must be a string of length 1 equal to one of these values: cctld, country.name, country.name.de, country.name.fr, country.name.it, cowc, cown, dhs, ecb, eurostat, fao, fips, gaul, genc2c, genc3c, genc3n, gwc, gwn, imf, ioc, iso2c, iso3c, iso3n, p5c, p5n, p4c, p4n, un, un_m49, unicode.symbol, unhcr, unpd, vdem, wb, wb_api2c, wb_api3c, wvs, country.name.en.regex, country.name.de.regex, country.name.fr.regex, country.name.it.regex.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This was my original code based on example code in the country code package</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>wrangled_tophits<span class="sc">$</span>country <span class="ot">&lt;-</span> <span class="fu">countrycode</span>(wrangled_tophits<span class="sc">$</span>country, <span class="at">origin =</span> <span class="st">'country'</span>, <span class="at">destination =</span> <span class="st">'country.name.en'</span>) </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Error in countrycode(wrangled_tophits$country, origin = "country", destination = "country.name.en") : </span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   The `origin` argument must be a string of length 1 equal to one of these values: cctld, country.name, country.name.de, country.name.fr, country.name.it, cowc, cown, dhs, ecb, eurostat, fao, fips, gaul, genc2c, genc3c, genc3n, gwc, gwn, imf, ioc, iso2c, iso3c, iso3n, p5c, p5n, p4c, p4n, un, un_m49, unicode.symbol, unhcr, unpd, vdem, wb, wb_api2c, wb_api3c, wvs, country.name.en.regex, country.name.de.regex, country.name.fr.regex, country.name.it.regex.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This snippet is where ChatGPT correctly identified my mistake in defining origins.</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># The error you're encountering suggests that the origin argument in the countrycode function is not being provided with a valid value. The origin argument specifies the format of the input country codes, and it must be one of the accepted values.</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co"># In your case, it seems like you want to convert existing country codes in your data (wrangled_tophits$country) to country names in English. To fix this issue, you need to ensure that the origin argument is set correctly.</span></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Make sure to install and load the 'countrycode' package</span></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("countrycode")</span></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(countrycode)</span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Assuming your country codes are in ISO2 or ISO3 format</span></span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>wrangled_tophits<span class="sc">$</span>country <span class="ot">&lt;-</span> <span class="fu">countrycode</span>(</span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>  wrangled_tophits<span class="sc">$</span>country,</span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">origin =</span> <span class="st">'iso2c'</span>,  <span class="co"># or 'iso3c' depending on your data</span></span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">destination =</span> <span class="st">'country.name.en'</span></span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This snippet is where ChatGPT correctly identified my mistake in defining origins.</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co"># The error you're encountering suggests that the origin argument in the countrycode function is not being provided with a valid value. The origin argument specifies the format of the input country codes, and it must be one of the accepted values.</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="co"># In your case, it seems like you want to convert existing country codes in your data (wrangled_tophits$country) to country names in English. To fix this issue, you need to ensure that the origin argument is set correctly.</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Make sure to install and load the 'countrycode' package</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("countrycode")</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(countrycode)</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Assuming your country codes are in ISO2 or ISO3 format</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>wrangled_tophits<span class="sc">$</span>country <span class="ot">&lt;-</span> <span class="fu">countrycode</span>(</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>  wrangled_tophits<span class="sc">$</span>country,</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">origin =</span> <span class="st">'iso2c'</span>,  <span class="co"># or 'iso3c' depending on your data</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">destination =</span> <span class="st">'country.name.en'</span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If your 'country' column contains a mix of full country names like "United Kingdom" and country codes like "USA," you may need to use multiple countrycode calls to handle both cases.</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Here's an example that shows how you can use conditional logic to determine the format of each entry and apply the appropriate countrycode conversion:</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Make sure to install and load the 'countrycode' package</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("countrycode")</span></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(countrycode)</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Example data</span></span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>wrangled_tophits <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">country =</span> <span class="fu">c</span>(<span class="st">"United Kingdom"</span>, <span class="st">"USA"</span>, <span class="st">"Canada"</span>, <span class="st">"Germany"</span>)</span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Identify the format of each entry and apply countrycode accordingly</span></span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>wrangled_tophits<span class="sc">$</span>country <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(</span>
-<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">grepl</span>(<span class="st">"[A-Za-z]"</span>, wrangled_tophits<span class="sc">$</span>country),  <span class="co"># Check if there are letters</span></span>
-<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">countrycode</span>(wrangled_tophits<span class="sc">$</span>country, <span class="at">origin =</span> <span class="st">'country.name'</span>, <span class="at">destination =</span> <span class="st">'iso2c'</span>),</span>
-<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">countrycode</span>(wrangled_tophits<span class="sc">$</span>country, <span class="at">origin =</span> <span class="st">'iso2c'</span>, <span class="at">destination =</span> <span class="st">'country.name'</span>)</span>
-<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the result</span></span>
-<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(wrangled_tophits)</span>
-<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a><span class="co"># However,the origin (my scraped dataset) wasn't in iso2c.</span></span>
-<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a><span class="co"># I further asked CHATgpt to explain each step to me so I can understand its rational</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If your 'country' column contains a mix of full country names like "United Kingdom" and country codes like "USA," you may need to use multiple countrycode calls to handle both cases.</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Here's an example that shows how you can use conditional logic to determine the format of each entry and apply the appropriate countrycode conversion:</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Make sure to install and load the 'countrycode' package</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("countrycode")</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(countrycode)</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Example data</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>wrangled_tophits <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">country =</span> <span class="fu">c</span>(<span class="st">"United Kingdom"</span>, <span class="st">"USA"</span>, <span class="st">"Canada"</span>, <span class="st">"Germany"</span>)</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Identify the format of each entry and apply countrycode accordingly</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>wrangled_tophits<span class="sc">$</span>country <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">grepl</span>(<span class="st">"[A-Za-z]"</span>, wrangled_tophits<span class="sc">$</span>country),  <span class="co"># Check if there are letters</span></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">countrycode</span>(wrangled_tophits<span class="sc">$</span>country, <span class="at">origin =</span> <span class="st">'country.name'</span>, <span class="at">destination =</span> <span class="st">'iso2c'</span>),</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">countrycode</span>(wrangled_tophits<span class="sc">$</span>country, <span class="at">origin =</span> <span class="st">'iso2c'</span>, <span class="at">destination =</span> <span class="st">'country.name'</span>)</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the result</span></span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(wrangled_tophits)</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a><span class="co"># However,the origin (my scraped dataset) wasn't in iso2c.</span></span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a><span class="co"># I further asked CHATgpt to explain each step to me so I can understand its rational</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>Then, I made some slight modifications manually on how destination are defined to ensure consistency</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>wrangled_tophits<span class="sc">$</span>country <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">grepl</span>(<span class="st">"[A-Za-z]"</span>, wrangled_tophits<span class="sc">$</span>country),  <span class="co"># Check if there are letters</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">countrycode</span>(wrangled_tophits<span class="sc">$</span>country, <span class="at">origin =</span> <span class="st">'country.name'</span>, <span class="at">destination =</span> <span class="st">'country.name.en'</span>),</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">countrycode</span>(wrangled_tophits<span class="sc">$</span>country, <span class="at">origin =</span> <span class="st">'iso2c'</span>, <span class="at">destination =</span> <span class="st">'country.name.en'</span>)</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>wrangled_tophits<span class="sc">$</span>country <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">grepl</span>(<span class="st">"[A-Za-z]"</span>, wrangled_tophits<span class="sc">$</span>country),  <span class="co"># Check if there are letters</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">countrycode</span>(wrangled_tophits<span class="sc">$</span>country, <span class="at">origin =</span> <span class="st">'country.name'</span>, <span class="at">destination =</span> <span class="st">'country.name.en'</span>),</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">countrycode</span>(wrangled_tophits<span class="sc">$</span>country, <span class="at">origin =</span> <span class="st">'iso2c'</span>, <span class="at">destination =</span> <span class="st">'country.name.en'</span>)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>Overall, whether ChatGPT can be helpful in fixing problems related to packages depends on its popularity. Since <code>Countrycode</code> is a lot more widely used than <code>geniusR</code>, ChatGpt was able to offer helpful solution and explainatory insights. On the other hand, the experience of trying to use it to fix a less popular package is frustrating to say the least.</p>
@@ -865,84 +888,84 @@ div.csl-indent {
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># It appears that your `remove_percentage_sign` function is correctly defined to remove the percentage sign and convert the values to numeric. However, the warning messages indicate that there are issues with coercion to numeric, possibly due to non-numeric values in the columns.</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co"># To handle this, you can modify your function to add additional checks to handle non-numeric values. Here's an updated version of your function:</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>remove_percentage_sign <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Remove percentage sign</span></span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">"%"</span>, <span class="st">""</span>, x)</span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Convert to numeric, handling non-numeric values</span></span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>  numeric_values <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(<span class="fu">as.numeric</span>(x))</span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Replace NA values with 0 or handle them based on your specific use case</span></span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>  numeric_values[<span class="fu">is.na</span>(numeric_values)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(numeric_values)</span>
-<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a><span class="co">#Then, apply this modified function to your columns using `map_df`:</span></span>
-<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Assuming original_IFPI_data is your data frame</span></span>
-<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>columns_to_process <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Physical"</span>, <span class="st">"Digital"</span>, <span class="st">"Performance Rights"</span>, <span class="st">"Synchronization"</span>)</span>
-<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>original_IFPI_data[, columns_to_process] <span class="ot">&lt;-</span> <span class="fu">map_df</span>(</span>
-<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>  original_IFPI_data[, columns_to_process], </span>
-<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span> <span class="fu">remove_percentage_sign</span>(.x)</span>
-<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a><span class="co"># This modified function will attempt to convert values to numeric, and if it fails (resulting in NA), it will replace those NA values with 0. Adjust the replacement strategy based on your specific requirements. After applying this, check for NAs in your data to ensure that the warning messages are appropriately handled.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># It appears that your `remove_percentage_sign` function is correctly defined to remove the percentage sign and convert the values to numeric. However, the warning messages indicate that there are issues with coercion to numeric, possibly due to non-numeric values in the columns.</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co"># To handle this, you can modify your function to add additional checks to handle non-numeric values. Here's an updated version of your function:</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>remove_percentage_sign <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Remove percentage sign</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">"%"</span>, <span class="st">""</span>, x)</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Convert to numeric, handling non-numeric values</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  numeric_values <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(<span class="fu">as.numeric</span>(x))</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Replace NA values with 0 or handle them based on your specific use case</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>  numeric_values[<span class="fu">is.na</span>(numeric_values)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(numeric_values)</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a><span class="co">#Then, apply this modified function to your columns using `map_df`:</span></span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Assuming original_IFPI_data is your data frame</span></span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>columns_to_process <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Physical"</span>, <span class="st">"Digital"</span>, <span class="st">"Performance Rights"</span>, <span class="st">"Synchronization"</span>)</span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>original_IFPI_data[, columns_to_process] <span class="ot">&lt;-</span> <span class="fu">map_df</span>(</span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>  original_IFPI_data[, columns_to_process], </span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span> <span class="fu">remove_percentage_sign</span>(.x)</span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a><span class="co"># This modified function will attempt to convert values to numeric, and if it fails (resulting in NA), it will replace those NA values with 0. Adjust the replacement strategy based on your specific requirements. After applying this, check for NAs in your data to ensure that the warning messages are appropriately handled.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>While I did not utlize its solution (since I don’t plan to convert NA to 0), its explanation was helpful in making way for turning the columns to numeric.</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">#writing a function to remove % from observations and fix missing values by turning n/a to NA</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>remove_percentage_sign_fix_missing <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">'%'</span>, <span class="st">''</span>, x)</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  x[x <span class="sc">==</span> <span class="st">"n/a"</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  x</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co">#apply the remove_percentage_sign function to the following columns: Physical, Digital, Performance Rights, Synchronization </span></span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>wrangled_IFPI_data[,<span class="fu">c</span>(<span class="dv">4</span><span class="sc">:</span><span class="dv">7</span>)] <span class="ot">&lt;-</span> <span class="fu">map_df</span>(wrangled_IFPI_data[,<span class="fu">c</span>(<span class="dv">4</span><span class="sc">:</span><span class="dv">7</span>)], remove_percentage_sign_fix_missing)</span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="co">#I removed the line that converts values to numeric altogether. I fixed NA using the function learned in lecture 4. </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">#writing a function to remove % from observations and fix missing values by turning n/a to NA</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>remove_percentage_sign_fix_missing <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">'%'</span>, <span class="st">''</span>, x)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  x[x <span class="sc">==</span> <span class="st">"n/a"</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  x</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="co">#apply the remove_percentage_sign function to the following columns: Physical, Digital, Performance Rights, Synchronization </span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>wrangled_IFPI_data[,<span class="fu">c</span>(<span class="dv">4</span><span class="sc">:</span><span class="dv">7</span>)] <span class="ot">&lt;-</span> <span class="fu">map_df</span>(wrangled_IFPI_data[,<span class="fu">c</span>(<span class="dv">4</span><span class="sc">:</span><span class="dv">7</span>)], remove_percentage_sign_fix_missing)</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="co">#I removed the line that converts values to numeric altogether. I fixed NA using the function learned in lecture 4. </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>When I tried to add a year column that decreases every 11 rows to IFPI dataframe, I found <a href="https://stackoverflow.com/questions/62513874/how-can-i-create-a-new-column-with-the-same-id-every-n-rows-in-r">this solution</a>. Chat GPT was able to explain each step to me so I can incorporate it into my data wrangling.</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">#explain every step of this to me</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>bloc_len <span class="ot">&lt;-</span> <span class="dv">5</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>bloc <span class="ot">&lt;-</span> </span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rep</span>(<span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">1</span> <span class="sc">+</span> <span class="fu">nrow</span>(df) <span class="sc">%/%</span> bloc_len), <span class="at">each =</span> bloc_len, <span class="at">length.out =</span> <span class="fu">nrow</span>(df))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">#explain every step of this to me</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>bloc_len <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>bloc <span class="ot">&lt;-</span> </span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rep</span>(<span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">1</span> <span class="sc">+</span> <span class="fu">nrow</span>(df) <span class="sc">%/%</span> bloc_len), <span class="at">each =</span> bloc_len, <span class="at">length.out =</span> <span class="fu">nrow</span>(df))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>It gave a through explanation, introducing the usage of <code>rep</code> to me</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This code generates a sequence of block identifiers and repeats it to match the length of the original data frame (df). Here's a step-by-step breakdown:</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co"># seq(1, 1 + nrow(df) %/% bloc_len): This generates a sequence of integers starting from 1 up to the maximum block identifier. The 1 + nrow(df) %/% bloc_len calculates the maximum block identifier based on the total number of rows in the data frame (df) and the block length (bloc_len). %/% is the integer division operator.</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="co"># rep(..., each = bloc_len, length.out = nrow(df)): This repeats the sequence of block identifiers each times (in this case, bloc_len times) and ensures that the total length of the repeated sequence is equal to the number of rows in the original data frame (nrow(df)).</span></span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="co"># df$bloc &lt;- ...: Finally, the generated sequence of block identifiers is assigned to a new column called bloc in the original data frame df.</span></span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="co">#In summary, this code is creating a new column bloc in the data frame df where each block identifier is repeated bloc_len times, and the total length of the repeated sequence matches the number of rows in the original data frame. This is a way to group data into blocks of size bloc_len.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This code generates a sequence of block identifiers and repeats it to match the length of the original data frame (df). Here's a step-by-step breakdown:</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="co"># seq(1, 1 + nrow(df) %/% bloc_len): This generates a sequence of integers starting from 1 up to the maximum block identifier. The 1 + nrow(df) %/% bloc_len calculates the maximum block identifier based on the total number of rows in the data frame (df) and the block length (bloc_len). %/% is the integer division operator.</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="co"># rep(..., each = bloc_len, length.out = nrow(df)): This repeats the sequence of block identifiers each times (in this case, bloc_len times) and ensures that the total length of the repeated sequence is equal to the number of rows in the original data frame (nrow(df)).</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="co"># df$bloc &lt;- ...: Finally, the generated sequence of block identifiers is assigned to a new column called bloc in the original data frame df.</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="co">#In summary, this code is creating a new column bloc in the data frame df where each block identifier is repeated bloc_len times, and the total length of the repeated sequence matches the number of rows in the original data frame. This is a way to group data into blocks of size bloc_len.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>I produced the following code, which ran perfectly</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>year_len <span class="ot">&lt;-</span> <span class="dv">11</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>original_IFPI_data<span class="sc">$</span>year <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">seq</span>(<span class="dv">2017</span>, <span class="dv">1</span> <span class="sc">+</span> <span class="fu">nrow</span>(original_IFPI_data) <span class="sc">%/%</span> year_len), <span class="at">each =</span> year_len, <span class="at">length.out =</span> <span class="fu">nrow</span>(original_IFPI_data))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>year_len <span class="ot">&lt;-</span> <span class="dv">11</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>original_IFPI_data<span class="sc">$</span>year <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">seq</span>(<span class="dv">2017</span>, <span class="dv">1</span> <span class="sc">+</span> <span class="fu">nrow</span>(original_IFPI_data) <span class="sc">%/%</span> year_len), <span class="at">each =</span> year_len, <span class="at">length.out =</span> <span class="fu">nrow</span>(original_IFPI_data))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -952,84 +975,84 @@ div.csl-indent {
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this code snippet is slightly different from the one I used in my visualisation, as I made the plot before I constructed the dashboard- so its from the early stage of my workflow.</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="co"># I asked Chatgpt to set both axis to 100</span></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>IFPI_graph<span class="ot">=</span> IFPI_by_year<span class="sc">%&gt;%</span></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>physical_percentage, </span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">y=</span>digital_percentage,</span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">color=</span>market,</span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">size=</span>retail_value_us_millions))<span class="sc">+</span></span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>        <span class="fu">geom_point</span>()<span class="sc">+</span></span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Global Music Market from 2011 to 2017"</span>,</span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>          <span class="at">x=</span><span class="st">"Physical Percentage"</span>,</span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>          <span class="at">y=</span><span class="st">"Digital Percentage"</span>,</span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>          <span class="at">size=</span><span class="st">"Total retail Value in US$ millions"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this code snippet is slightly different from the one I used in my visualisation, as I made the plot before I constructed the dashboard- so its from the early stage of my workflow.</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co"># I asked Chatgpt to set both axis to 100</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>IFPI_graph<span class="ot">=</span> IFPI_by_year<span class="sc">%&gt;%</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>physical_percentage, </span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">y=</span>digital_percentage,</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">color=</span>market,</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">size=</span>retail_value_us_millions))<span class="sc">+</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>        <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Global Music Market from 2011 to 2017"</span>,</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>          <span class="at">x=</span><span class="st">"Physical Percentage"</span>,</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>          <span class="at">y=</span><span class="st">"Digital Percentage"</span>,</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>          <span class="at">size=</span><span class="st">"Total retail Value in US$ millions"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>ChatGPT provided the following solution which worked perfectly:</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># To set both the x-axis and y-axis limits to 100 in your `IFPI_graph`, you can use the `scale_x_continuous()` and `scale_y_continuous()` functions in ggplot2. Here's how you can modify your code:</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>IFPI_graph <span class="ot">&lt;-</span> IFPI_by_year <span class="sc">%&gt;%</span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> physical_percentage, </span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> digital_percentage,</span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> market,</span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> retail_value_us_millions)) <span class="sc">+</span></span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Global Music Market from 2011 to 2017"</span>,</span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Physical Percentage"</span>,</span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Digital Percentage"</span>,</span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">size =</span> <span class="st">"Total retail Value in US$ millions"</span>) <span class="sc">+</span></span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>)) <span class="sc">+</span></span>
-<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>))</span>
-<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>IFPI_graph</span>
-<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a><span class="co"># In this modification:</span></span>
-<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a><span class="co"># - `scale_x_continuous(limits = c(0, 100))` sets the x-axis limits from 0 to 100.</span></span>
-<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a><span class="co"># - `scale_y_continuous(limits = c(0, 100))` sets the y-axis limits from 0 to 100.</span></span>
-<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Adjust the code accordingly based on your data and specific needs. This will ensure that both the x-axis and y-axis limits range from 0 to 100.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># To set both the x-axis and y-axis limits to 100 in your `IFPI_graph`, you can use the `scale_x_continuous()` and `scale_y_continuous()` functions in ggplot2. Here's how you can modify your code:</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>IFPI_graph <span class="ot">&lt;-</span> IFPI_by_year <span class="sc">%&gt;%</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> physical_percentage, </span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> digital_percentage,</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> market,</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> retail_value_us_millions)) <span class="sc">+</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Global Music Market from 2011 to 2017"</span>,</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Physical Percentage"</span>,</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Digital Percentage"</span>,</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">size =</span> <span class="st">"Total retail Value in US$ millions"</span>) <span class="sc">+</span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>)) <span class="sc">+</span></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>))</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>IFPI_graph</span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a><span class="co"># In this modification:</span></span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a><span class="co"># - `scale_x_continuous(limits = c(0, 100))` sets the x-axis limits from 0 to 100.</span></span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a><span class="co"># - `scale_y_continuous(limits = c(0, 100))` sets the y-axis limits from 0 to 100.</span></span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Adjust the code accordingly based on your data and specific needs. This will ensure that both the x-axis and y-axis limits range from 0 to 100.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>In another case, it came up with solutions to change the labels of the legend.Although its suggestion, mutating a new column is surprisingly simple, it was nevertheless effective.</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># My original code:</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>tophits_uk <span class="ot">&lt;-</span> <span class="sc">%&gt;%</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country <span class="sc">==</span> <span class="st">"United Kingdom"</span>)</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_ly</span>(tophits_uk, <span class="at">x =</span> <span class="sc">~</span>track.popularity, <span class="at">y =</span> <span class="sc">~</span>danceability, <span class="at">color =</span> <span class="sc">~</span>track.explicit, <span class="at">colors =</span> <span class="fu">c</span>(<span class="st">'blue'</span>, <span class="st">'red'</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_trace</span>()<span class="sc">%&gt;%</span></span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">layout</span>(<span class="at">title =</span> <span class="st">"Relationship between Popularity and Danceability"</span>,</span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">xaxis =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="st">"popularity"</span>),</span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">yaxis =</span> <span class="fu">list</span> (<span class="at">title =</span> <span class="st">"danceability"</span>)) </span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>         </span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="co"># I was looking for ways to change the display of the variable track.explicit to "explicit" and "non-explicit instead of true and false</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># My original code:</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>tophits_uk <span class="ot">&lt;-</span> <span class="sc">%&gt;%</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country <span class="sc">==</span> <span class="st">"United Kingdom"</span>)</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_ly</span>(tophits_uk, <span class="at">x =</span> <span class="sc">~</span>track.popularity, <span class="at">y =</span> <span class="sc">~</span>danceability, <span class="at">color =</span> <span class="sc">~</span>track.explicit, <span class="at">colors =</span> <span class="fu">c</span>(<span class="st">'blue'</span>, <span class="st">'red'</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_trace</span>()<span class="sc">%&gt;%</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">layout</span>(<span class="at">title =</span> <span class="st">"Relationship between Popularity and Danceability"</span>,</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">xaxis =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="st">"popularity"</span>),</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">yaxis =</span> <span class="fu">list</span> (<span class="at">title =</span> <span class="st">"danceability"</span>)) </span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>         </span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a><span class="co"># I was looking for ways to change the display of the variable track.explicit to "explicit" and "non-explicit instead of true and false</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">#ChatGPT's solution:</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="co"># To change the display of the track.explicit variable to "explicit" and "non-explicit" instead of TRUE and FALSE in your plot_ly plot in R using plotly, you can use the mutate function to create a new column that maps TRUE to "explicit" and FALSE to "non-explicit". Here's an example:</span></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Assuming tophits_uk is your data frame</span></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>tophits_uk <span class="ot">&lt;-</span> tophits_uk <span class="sc">%&gt;%</span></span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country <span class="sc">==</span> <span class="st">"United Kingdom"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">explicit_label =</span> <span class="fu">ifelse</span>(track.explicit, <span class="st">"explicit"</span>, <span class="st">"non-explicit"</span>))</span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_ly</span>(tophits_uk, <span class="at">x =</span> <span class="sc">~</span>track.popularity, <span class="at">y =</span> <span class="sc">~</span>danceability, <span class="at">color =</span> <span class="sc">~</span>explicit_label, <span class="at">colors =</span> <span class="fu">c</span>(<span class="st">'blue'</span>, <span class="st">'red'</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_trace</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">layout</span>(<span class="at">title =</span> <span class="st">"Relationship between Popularity and Danceability"</span>,</span>
-<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">xaxis =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="st">"Popularity"</span>),</span>
-<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>         <span class="at">yaxis =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="st">"Danceability"</span>),</span>
-<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>         <span class="at">colorbar =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="st">"Explicit"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co">#ChatGPT's solution:</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="co"># To change the display of the track.explicit variable to "explicit" and "non-explicit" instead of TRUE and FALSE in your plot_ly plot in R using plotly, you can use the mutate function to create a new column that maps TRUE to "explicit" and FALSE to "non-explicit". Here's an example:</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Assuming tophits_uk is your data frame</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>tophits_uk <span class="ot">&lt;-</span> tophits_uk <span class="sc">%&gt;%</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country <span class="sc">==</span> <span class="st">"United Kingdom"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">explicit_label =</span> <span class="fu">ifelse</span>(track.explicit, <span class="st">"explicit"</span>, <span class="st">"non-explicit"</span>))</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_ly</span>(tophits_uk, <span class="at">x =</span> <span class="sc">~</span>track.popularity, <span class="at">y =</span> <span class="sc">~</span>danceability, <span class="at">color =</span> <span class="sc">~</span>explicit_label, <span class="at">colors =</span> <span class="fu">c</span>(<span class="st">'blue'</span>, <span class="st">'red'</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_trace</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">layout</span>(<span class="at">title =</span> <span class="st">"Relationship between Popularity and Danceability"</span>,</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">xaxis =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="st">"Popularity"</span>),</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>         <span class="at">yaxis =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="st">"Danceability"</span>),</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>         <span class="at">colorbar =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="st">"Explicit"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>Although there are many times when ChatGPT failed to provide me with a runnable solution, it was suitable for making simple refinements. Compared to solutions on stackoverflow or CRAN, its is more tailored to my code and therefore saves the time on adaption.</p>
@@ -1160,20 +1183,6 @@ output$musicmarket <- renderPlot({
   scale_y_continuous(limits = c(0, 100))+theme_minimal()
 IFPI_graph
 })
-# plotting animation
-# output$musicmarketanimation <- renderPlot({
-#  
-# IFPI_graph= wrangled_IFPI_data%>%
-#   ggplot(aes(x=`physical_percentage`, y=digital_percentage,color=market,size=retail_value_us_millions))+geom_point()+labs(title="Global Music Market from 2011 to 2017",x="Physical Percentage",y="Digital Percentage",size="Total retail Value in US$ millions")
-# 
-# 
-# IFPI_graph.animation=IFPI_graph+transition_time(year)+labs(subtitle="Year: {frame_time}")+shadow_wake(wake_length = 0.2)
-# 
-# animate(IFPI_graph.animation, renderer = gifski_renderer(),fps=15,duration= 5)
-#    
-# })
-
-
 
 output$radar_chart <- renderPlot({
 

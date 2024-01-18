@@ -15,6 +15,7 @@ Remove the `#` in the source code before `groundhog.library(pkgs, "2024-01-04")`
 
 ```{r}
 #| context: setup
+#| echo: true
 #| include: false
 #check whether groundhog is installed on the computer, install if not. Remove # to install
 
@@ -106,8 +107,6 @@ write_csv(tophits,"140123tophits.csv")
 
 ```
 
-
-
 ### B. Data Exploration & Contextualisation
 
 First, I import the scrapped data.
@@ -130,7 +129,7 @@ The data wrangling aims to
 
 4.  clean headers for machine readability
 
-IFPI data requires more tidying as webscraping is site-dependent-meaning the data is less structured.
+IFPI data requires more tidying as webscraping is site-dependent: the data is less structured.
 
 ```{r Wrangling IFPI data}
 #| echo: true
@@ -246,8 +245,11 @@ summary(wrangled_tophits)%>%
 ## Part II
 
 ### A. R Shiny interactive dashboard
-The following diagram is suitable for showcasing whether specific audio features correlates with popularity under different cultural contexts. 
-It is note worthy that Asian countries, such as Japan and South Korea, have a lot less explicit songs in their top 50 list compared to European and American countries.
+
+The following diagram is suitable for showcasing whether specific audio features correlates with `popularity` under different cultural contexts.
+
+-   It is note worthy that Asian countries, such as Japan and South Korea, have a lot less explicit songs in their top 50 list compared to European and American countries.
+
 ```{r}
 #| echo: true
 #| panel: sidebar
@@ -263,11 +265,15 @@ radioButtons("country_buttons", label = h3("Select country to view audio feature
     selected = 1)
 
 ```
+
 ```{r}
 #| panel: fill
+#| echo: true
 plotlyOutput('audio_features')
 ```
+
 The following radar diagram provides a direct holistic comparison between the audio features of top 50 songs in the six countries I chose to scrape. It is note worthy that popular songs in japan is weakest in terms of `energy` and `valence`. This provide grounds for future research regarding the cultual difference.
+
 ```{r}
 #| echo: true
 #| panel: sidebar
@@ -281,6 +287,7 @@ selectInput("radar_country", label = h3("Select a country to view mean audio fea
 
 ```{r}
 #| panel: fill
+#| echo: true
 plotOutput('radar_chart')
 ```
 
@@ -297,12 +304,26 @@ sliderInput("yearslider", label = h3("Select year"), min = 2011,
 #| panel: fill
 plotOutput('musicmarket')
 ```
+
+An animated version can be found below.
+
 ```{r}
 #| echo: true
 #| eval: false
-plotOutput('musicmarketanimation')
-```
+# follow the following steps to view the animation- since animation can't be embedded into rendered dashboard, Manually running it in r studio is needed.
+# 1. open the .qmd file in R-studio without rendering it
+# 2. scroll to the bottom and run the server code chunk, ignore the error message- this step is done to import the wrangled data into the environment
+# 3. select and run the following code to view animation in the Viewer panel. It may take around 30 seconds to render.
 
+IFPI_graph= wrangled_IFPI_data%>%
+  ggplot(aes(x=`physical_percentage`, y=digital_percentage,color=market,size=retail_value_us_millions))+geom_point()+labs(title="Global Music Market from 2011 to 2017",x="Physical Percentage",y="Digital Percentage",size="Total retail Value in US$ millions")
+
+
+IFPI_graph.animation=IFPI_graph+transition_time(year)+labs(subtitle="Year: {frame_time}")+shadow_wake(wake_length = 0.2)
+
+animate(IFPI_graph.animation, renderer = gifski_renderer(),fps=15,duration= 5)
+
+```
 
 ### B. Reproducibility
 
@@ -320,7 +341,6 @@ lyrics_data <- get_lyrics_search("Kenya Grace", "Strangers")
 #Error in section_artist[is.na(section_artist)] <- artist : 
   #replacement has length zero
 ```
-
 
 ```{r}
 #| label: chatGPT 1st advice
@@ -586,8 +606,11 @@ I produced the following code, which ran perfectly
 year_len <- 11
 original_IFPI_data$year <- rep(seq(2017, 1 + nrow(original_IFPI_data) %/% year_len), each = year_len, length.out = nrow(original_IFPI_data))
 ```
+
 #### 3. adding features to plot: exceedingly helpful
+
 Using ChatGpt significantly improved my efficiency in modifying the details of graphs. For example, it help me set axis range based on my original code:
+
 ```{r}
 #| label: my original code for producing an interactive plot based on the IFPI database
 #| eval: false
@@ -605,7 +628,9 @@ IFPI_graph= IFPI_by_year%>%
           y="Digital Percentage",
           size="Total retail Value in US$ millions")
 ```
+
 ChatGPT provided the following solution which worked perfectly:
+
 ```{r}
 #| label: ChatGPT solution to fix scale
 #| eval: false
@@ -636,6 +661,7 @@ IFPI_graph
 # 
 # Adjust the code accordingly based on your data and specific needs. This will ensure that both the x-axis and y-axis limits range from 0 to 100.
 ```
+
 In another case, it came up with solutions to change the labels of the legend.Although its suggestion, mutating a new column is surprisingly simple, it was nevertheless effective.
 
 ```{r}
@@ -674,10 +700,10 @@ plot_ly(tophits_uk, x = ~track.popularity, y = ~danceability, color = ~explicit_
          yaxis = list(title = "Danceability"),
          colorbar = list(title = "Explicit"))
 ```
-Although there are many times when ChatGPT failed to provide me with a runnable solution, it was suitable for making simple refinements. Compared to solutions on stackoverflow or CRAN, its is more tailored to my code and therefore saves the time on adaption. 
+
+Although there are many times when ChatGPT failed to provide me with a runnable solution, it was suitable for making simple refinements. Compared to solutions on stackoverflow or CRAN, its is more tailored to my code and therefore saves the time on adaption.
 
 ## Part III Sever code
-
 
 ```{r}
 #| context: server
@@ -771,20 +797,6 @@ output$musicmarket <- renderPlot({
   scale_y_continuous(limits = c(0, 100))+theme_minimal()
 IFPI_graph
 })
-# plotting animation
-# output$musicmarketanimation <- renderPlot({
-#  
-# IFPI_graph= wrangled_IFPI_data%>%
-#   ggplot(aes(x=`physical_percentage`, y=digital_percentage,color=market,size=retail_value_us_millions))+geom_point()+labs(title="Global Music Market from 2011 to 2017",x="Physical Percentage",y="Digital Percentage",size="Total retail Value in US$ millions")
-# 
-# 
-# IFPI_graph.animation=IFPI_graph+transition_time(year)+labs(subtitle="Year: {frame_time}")+shadow_wake(wake_length = 0.2)
-# 
-# animate(IFPI_graph.animation, renderer = gifski_renderer(),fps=15,duration= 5)
-#    
-# })
-
-
 
 output$radar_chart <- renderPlot({
 
@@ -839,5 +851,3 @@ output$audio_features <- renderPlotly({
 
 
 ```
-
-
