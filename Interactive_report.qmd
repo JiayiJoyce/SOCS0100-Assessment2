@@ -16,13 +16,14 @@ Remove the `#` in the source code before `groundhog.library(pkgs, "2024-01-04")`
 ```{r}
 #| context: setup
 #| echo: true
-#| include: false
+#| message: false
+#| warning: false
 #check whether groundhog is installed on the computer, install if not. Remove # to install
 
 if (!require("groundhog")) {
   install.packages("groundhog")
 }
-#create the vector packages that include all the packages needed for interactive visualisation
+
 pkgs <- c(
   "spotifyr", #wrapper for spotify API
   "purrr", #for static data scraping
@@ -43,7 +44,7 @@ pkgs <- c(
   "shinyanimate"
 )
 
-# install packages as they are available on 2024-01-01, remove # to install
+
 groundhog.library(pkgs, "2024-01-04")
 ```
 
@@ -305,7 +306,7 @@ sliderInput("yearslider", label = h3("Select year"), min = 2011,
 plotOutput('musicmarket')
 ```
 
-An animated version can be found below.
+An animated version that can be manually activated can be found below.
 
 ```{r}
 #| echo: true
