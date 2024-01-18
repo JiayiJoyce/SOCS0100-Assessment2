@@ -1,0 +1,892 @@
+---
+title: "Interactive report"
+format: 
+    html:
+      theme: lux
+server: shiny
+code-overflow: wrap
+code-fold: true
+bibliography: references.bib
+---
+
+
+## Part I
+
+Remove the `#` in the source code before `groundhog.library(pkgs, "2024-01-04")` to install setup packages.
+
+
+```{r}
+#| context: setup
+#| include: false
+#check whether groundhog is installed on the computer, install if not. Remove # to install
+
+if (!require("groundhog")) {
+  install.packages("groundhog")
+}
+#create the vector packages that include all the packages needed for interactive visualisation
+pkgs <- c(
+  "spotifyr", #wrapper for spotify API
+  "purrr", #for static data scraping
+  "xml2",
+  "rvest",
+  "robotstxt",
+  "tidyverse",#for data wrangling
+  "dplyr",
+  "countrycode",#for data visualisation
+  "plotly",
+  "tibble",
+  "ggplot2",
+  "janitor",
+  "gifski",
+  "kableExtra",
+  "fmsb"
+)
+
+# install packages as they are available on 2024-01-01, remove # to install
+groundhog.library(pkgs, "2024-01-04")
+```
+
+
+### A. Automated data collection
+
+In this assignment I aim to analyze the current trend of popular music in the US,Japan,UK,Germany,France and South Korea: 6 countries with the biggest musical markets according to the latest [International Federation of the Phonographic Industry (IFPI) report](https://en.wikipedia.org/wiki/List_of_largest_recorded_music_markets) A static scraping is performed on Wikipedia to obtain annual data.
+
+
+```{r}
+#| eval: false
+
+#1.1static scraping annual IFPI data from 2011 to 2017
+# If the website allows scraping, then proceed scraping, else print error message
+if(paths_allowed("https://en.wikipedia.org/wiki/List_of_largest_recorded_music_markets")){
+  # function that enables parsing multiple tables automatically on wikipedia
+  parse_annual_data_tables <- function(x){
+    url <- "https://en.wikipedia.org/wiki/List_of_largest_recorded_music_markets"
+    parsed <- read_html(url)
+    annual_data_tables <- html_element(parsed, xpath =
+  paste0('//*[@id="mw-content-text"]/div[1]/table[',x,']')) #the only changing part is the number of the table, which is arranged in yearly order
+    IFPI_data <- html_table(annual_data_tables)   
+    return(IFPI_data)}
+  
+  #since the table on 2011-17 data ranges from table 6 to table 12, they will be scraped and binded
+  original_IFPI_data <- map_df(6:12, parse_annual_data_tables)
+  } else {print("Sorry, the page is not scrapable now.There may be a change in the website settings.")
+  }
+#export the data to csv format
+write_csv(original_IFPI_data,"140123original_IFPI_data.csv") 
+```
+
+
+I choose to collect music-related data through Spotify API as it offers an interface to relevant databases, which in this case include up to date popular playlists and data on relevant audio features. Furthermore, the [spotifyr](https://www.rcharlie.com/spotifyr/) package provided a wrapper which made it easier for me to integrate the API output.
+
+
+```{r}
+#| eval: false
+#The scraping code chunks are disabled as they require private API key to run. Data wrangling and visualization will be based on data scrapped on 14 Jan 2023.
+#2.1Using spotifyr to access API and scrape top hits from top 6 countries----
+#creating a variable called access token----
+Sys.setenv(SPOTIFY_CLIENT_ID = 'paste your own client id here')
+Sys.setenv(SPOTIFY_CLIENT_SECRET = 'paste your own client secret here')
+access_token <- get_spotify_access_token()
+
+#scraping top hits----
+UKtophits<-get_playlist_audio_features('paste your own spotify user id here','37i9dQZEVXbLnolsZ8PSNw',authorization = get_spotify_access_token())
+
+KRtophits<-get_playlist_audio_features('paste your own spotify user id here','37i9dQZEVXbNxXF4SkHj9F',authorization = get_spotify_access_token())
+
+UStophits<-get_playlist_audio_features('paste your own spotify user id here','37i9dQZEVXbLRQDuF5jeBp',authorization = get_spotify_access_token())
+
+JPtophits<-get_playlist_audio_features('paste your own spotify user id here','37i9dQZEVXbKXQ4mDTEBXq',authorization = get_spotify_access_token())
+
+DEtophits<-get_playlist_audio_features('paste your own spotify user id here','37i9dQZEVXbJiZcmkrIHGU',authorization = get_spotify_access_token())
+
+FRtophits<-get_playlist_audio_features('paste your own spotify user id here','37i9dQZEVXbIPWwFssbupI',authorization = get_spotify_access_token())
+
+#bind the top hits from 6 countries into one dataframe called tophits
+tophits<-bind_rows(UKtophits,KRtophits,UStophits,JPtophits,DEtophits,FRtophits)
+#exporting tophits as scraped on 14 Jan 2024 for future reproducibility
+write_csv(tophits,"140123tophits.csv")
+
+```
+
+
+
+
+### B. Data Exploration & Contextualisation
+
+First, I import the scrapped data.
+
+
+```{r}
+#| echo: true
+#| message: false
+original_IFPI_data <- read_csv("140123original_IFPI_data.csv")
+original_tophits <- read_csv("140123tophits.csv")
+
+```
+
+
+The data wrangling aims to
+
+1.  standardize country name for cross comparison
+
+2.  turn character vectors into numeric vectors for visualisation
+
+3.  remove unnecessary columns
+
+4.  clean headers for machine readability
+
+IFPI data requires more tidying as webscraping is site-dependent-meaning the data is less structured.
+
+
+```{r Wrangling IFPI data}
+#| echo: true
+#| warning: false
+#| message: false
+
+#adding year column to the IFPI data. The year was not incuded when scraping as they were not part of the table on the webpage
+year_len <- 11
+original_IFPI_data$year <- rep(seq(2017, 1 + nrow(original_IFPI_data) %/% year_len), each = year_len, length.out = nrow(original_IFPI_data))
+
+#removing `% Change` column, which is all NA
+wrangled_IFPI_data <- original_IFPI_data %>%
+  select(!`% Change`)
+
+#removing "," from the `Retail valueUS$ (millions)` column to convert it to numeric value
+wrangled_IFPI_data$`Retail valueUS$ (millions)` <- gsub(',', '', wrangled_IFPI_data$`Retail valueUS$ (millions)`)
+
+wrangled_IFPI_data$`Retail valueUS$ (millions)` <- as.numeric(wrangled_IFPI_data$`Retail valueUS$ (millions)`)
+
+#tidying observations----
+#fix NA
+remove_percentage_sign_fix_missing <- function(x){
+  x <- gsub('%', '', x)
+  x[x == "n/a"] <- NA
+  x
+}
+#apply the remove_percentage_sign function to the following columns: Physical, Digital, Performance Rights, Synchronization 
+wrangled_IFPI_data[,c(4:7)] <- purrr::map_df(wrangled_IFPI_data[,c(4:7)], remove_percentage_sign_fix_missing)
+
+# cleaning names----
+#use janitor to clean the column names
+wrangled_IFPI_data <- janitor::clean_names(wrangled_IFPI_data)
+#standardize the country names using countrycode package
+wrangled_IFPI_data$market <- ifelse(
+  grepl("[A-Za-z]", wrangled_IFPI_data$market),  # Check if there are letters
+  countrycode(wrangled_IFPI_data$market, origin = 'country.name', destination = 'country.name.en'),
+  countrycode(wrangled_IFPI_data$market, origin = 'iso2c', destination = 'country.name.en')
+)
+# subsetting global data (NA after standardinsing country names) to a new dataset----
+global_IFPI_data <- wrangled_IFPI_data %>%
+  filter(is.na(market))%>%
+  select(year,retail_value_us_millions)
+#change the retail_value_us_millions column to numeric
+global_IFPI_data$retail_value_us_millions <- as.numeric(global_IFPI_data$retail_value_us_millions)
+#change the year column to character
+global_IFPI_data$year <- as.character(global_IFPI_data$year)
+# turning character to numerics for data visualisation----
+#change column 4-7 to numeric, and then adding 'percentage' to the end of column 4-7
+wrangled_IFPI_data[,c(4:7)] <- purrr::map_df(wrangled_IFPI_data[,c(4:7)], as.numeric)
+colnames(wrangled_IFPI_data)[4:7] <- paste(colnames(wrangled_IFPI_data)[4:7],' percentage')
+#remove the NA rows (global data is already subsetted)
+wrangled_IFPI_data <- wrangled_IFPI_data[!is.na(wrangled_IFPI_data$market),]
+
+```
+
+
+In the end, I produced two tidied data frames: `global_IFPI_data` and `wrangled_IFPI_data`.
+
+Data from the Spotify API is more tidy and comprehensive. Tidying it is mainly to remove unnecessary columns and stardardize column names.
+
+
+```{r Wrangling Spotify data}
+#| echo: true
+#| warning: false
+#| message: false
+#select the columns that are needed for analysis
+wrangled_tophits <- original_tophits %>%
+  select(playlist_name, danceability, energy, key, loudness,speechiness, acousticness, instrumentalness, liveness, valence, tempo, track.explicit, track.popularity, track.name)%>%
+  rename(country = playlist_name)#rename the playlist_name column to country
+
+#Remove the "Top 50 -  "from the country column
+wrangled_tophits$country <- gsub("Top 50 - ", "", wrangled_tophits$country)
+#standardize the country names using countrycode package
+wrangled_tophits$country <- ifelse(
+  grepl("[A-Za-z]", wrangled_tophits$country),  # Check if there are letters
+  countrycode(wrangled_tophits$country, origin = 'country.name', destination = 'country.name.en'),
+  countrycode(wrangled_tophits$country, origin = 'iso2c', destination = 'country.name.en')
+)
+
+```
+
+
+The end product is a tidy dataframe: `wrangled_tophits`.
+
+##### Overview of datasets
+
+The `wrangled_IFPI_data` dataframe contains the music market value from 2011 to 2017, with 8 columns and 77 rows. It showcases how concentrated different facets of the music market (`physical`, `digital`, `performance rights`) are in different countries and therefore have implications in the study of media [@geurts2023]in social science.
+
+
+```{r}
+summary(wrangled_IFPI_data)%>%
+  knitr::kable()%>%
+  kable_styling(full_width = F, position = "center") %>% 
+  row_spec(row = 1:6, background = "azure", color = "palevioletred")
+```
+
+
+The `global_IFPI_data` dataframe contains the global music market value (numeric) in million \$ in the same period, with 2 columns and 7 rows.It provides a more holistic view of the music industry.
+
+
+```{r}
+summary(global_IFPI_data)%>%
+  knitr::kable()%>%
+  kable_styling(full_width = F, position = "center") %>% 
+  row_spec(row = 1:6, background = "azure", color = "palevioletred")
+
+```
+
+
+The `wrangled_tophits` dataframe contains the audio features (including `valence`, `dancability`, etc.) of the top 50 songs in 6 countries, with 14 columns and 300 rows. Most of these audio features are numeric, with some, such as `track.explicit` are logical, and `track.name` is a character variable.It can potentially provide an up-to-date insight on the musical taste, an important cultural aspect[@aarons2018], in countries with the most developed music industry.
+
+
+```{r}
+summary(wrangled_tophits)%>%
+  knitr::kable()%>%
+  kable_styling(full_width = F, position = "center") %>% 
+  row_spec(row = 1:6, background = "aliceblue", color = "orchid")
+
+```
+
+
+## Part II
+
+### A. R Shiny interactive dashboard
+The following diagram is suitable for showcasing whether specific audio features correlates with popularity under different cultural contexts. 
+It is note worthy that Asian countries, such as Japan and South Korea, have a lot less explicit songs in their top 50 list compared to European and American countries.
+
+```{r}
+#| echo: true
+#| panel: sidebar
+#input for scatter plot
+radioButtons("country_buttons", label = h3("Select country to view audio features"),
+               choices = unique(wrangled_tophits$country),
+               selected = "France")
+
+ 
+
+ selectInput("Yvar", label = h3("Select variable for y-axis"), 
+    choices = names(wrangled_tophits)[c(2, 3, 6,9,10)], 
+    selected = 1)
+
+```
+
+```{r}
+#| panel: fill
+plotlyOutput('audio_features')
+```
+
+The following radar diagram provides a direct holistic comparison between the audio features of top 50 songs in the six countries I chose to scrape. It is note worthy that popular songs in japan is weakest in terms of `energy` and `valence`. This provide grounds for future research regarding the cultual difference.
+
+```{r}
+#| echo: true
+#| panel: sidebar
+#input for radar plot
+
+selectInput("radar_country", label = h3("Select a country to view mean audio features"), 
+    choices = unique(wrangled_tophits$country), 
+    selected = "Japan")
+
+```
+
+```{r}
+#| panel: fill
+plotOutput('radar_chart')
+```
+
+```{r}
+#| panel: sidebar
+#| echo: true
+ sliderInput("yearslider",label = h3("Select a year to view market data"), min = 2011, max = 2017, value = 2011,step = 1,  animate = TRUE, ticks = TRUE)
+```
+
+```{r}
+#| echo: true
+#| panel: fill
+plotOutput('musicmarket')
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### B. Reproducibility
+
+### C. Critical engagement with AI
+
+#### 1. Fixing package issues: depends on the popularity of the package
+
+Originally I planned to conduct texual analysis based on lyrics, which requires using the [geniusr](https://ewenme.github.io/geniusr/) package. However this package produced an error unspecified by the developer.
+
+
+```{r}
+#| label: my original code
+#| eval: false
+library(geniusr)
+lyrics_data <- get_lyrics_search("Kenya Grace", "Strangers")
+#Error in section_artist[is.na(section_artist)] <- artist : 
+  #replacement has length zero
+```
+
+```{r}
+#| label: chatGPT 1st advice
+#| eval: false
+#| echo: true
+# This is ChatGpt's first advice
+# The error "replacement has length zero" typically occurs when trying to replace values in a vector or a subset of a vector with another vector, and the replacement vector has zero length. This can happen when the replacement vector is empty or not provided correctly.
+# 
+# In the context of the `geniusr` package and the error message you provided, it seems like there might be an issue with the data returned by the `get_lyrics_search` function. The code may be attempting to assign values to the `section_artist` vector, but the replacement (`artist`) is empty or not available.
+# 
+# Here's a general approach to troubleshoot and handle such issues:
+# 
+# 1. **Check the `get_lyrics_search` Result:**
+#    Before attempting to process the data, check the result returned by `get_lyrics_search` to understand what information is available and if it contains the necessary fields.
+
+
+   lyrics_data <- get_lyrics_search("Kenya Grace", "Strangers")
+   print(lyrics_data)
+   
+
+# 2. **Inspect Data Structure:**
+#    Examine the structure of `lyrics_data` to ensure it has the expected columns and values. You can use functions like
+
+str(lyrics_data) 
+summary(lyrics_data) 
+
+# to inspect the data.
+
+# 3. **Check Variable Names:**
+#    Ensure that the variable names used in your code (e.g., `section_artist`, `artist`) correspond to the actual columns in the data returned by `get_lyrics_search`.
+# 
+# If the issue persists, you may want to share more details about the code snippet where the error occurs, or check the documentation and examples provided by the `geniusr` package. Additionally, consider reac`hing out to the package's maintainers or community for assistance.
+```
+
+
+Non of the three solution was specific to the error concerning the package. Upon further questioning it advised me to inspect the validity of my API token:
+
+
+```{r}
+#| label: chatGPT 2nd advice
+#| eval: false
+#| echo: true
+# ChatGPT's second advice
+#It seems like you're referring to a specific R package or library named geniusr that is designed to interact with the Genius API. Based on the information provided, it appears that the library follows a standard process for authenticating and retrieving data from the Genius API.
+# Set Up Environment Variable:
+# 
+# Set up an environment variable named GENIUS_API_TOKEN.
+# Assign the generated client access token as the value of the environment variable.
+# In R, you can set an environment variable using the Sys.setenv() function:
+Sys.setenv(GENIUS_API_TOKEN = "your_generated_access_token")
+#Alternatively, you can set the environment variable outside of your R script or session in your system environment variables.
+
+```
+
+
+which was not the problem as the package was able to perform other functions such as
+
+
+```{r}
+#| eval: false
+#| echo: true
+# my test run of example code in the package
+search_artist('taylor swift')
+#output
+# A tibble: 1 × 3
+#   artist_id artist_name  artist_url                             
+#       <int> <chr>        <chr>                                  
+# 1      1177 Taylor Swift https://genius.com/artists/Taylor-swift
+
+# After further research on  [stackoverflow](https://stackoverflow.com/questions/76565068/geniusr-package-problem-with-get-lyrics-function), and running exemplar code on the wrapper's [github page](https://ewenme.github.io/geniusr/), I found that the problem was likely related to changes in API rather than my code, and had to resort to scraping other data source. 
+```
+
+
+ChatGPT didn't solve the error or identified the infeasibility of the package (it insisted the package was workable). It is not suitable for solving problems related to contextual errors such as the ones related to API changes or less well-known packages.
+
+It did, however, improved my usage of [country code package](https://github.com/vincentarelbundock/countrycode) in standardizing country names.
+
+
+```{r}
+#| label: my original code based on countrycode instruction
+#| eval: false
+#| echo: true
+# This was my original code based on example code in the country code package
+wrangled_tophits$country <- countrycode(wrangled_tophits$country, origin = 'country', destination = 'country.name.en') 
+# Error in countrycode(wrangled_tophits$country, origin = "country", destination = "country.name.en") : 
+#   The `origin` argument must be a string of length 1 equal to one of these values: cctld, country.name, country.name.de, country.name.fr, country.name.it, cowc, cown, dhs, ecb, eurostat, fao, fips, gaul, genc2c, genc3c, genc3n, gwc, gwn, imf, ioc, iso2c, iso3c, iso3n, p5c, p5n, p4c, p4n, un, un_m49, unicode.symbol, unhcr, unpd, vdem, wb, wb_api2c, wb_api3c, wvs, country.name.en.regex, country.name.de.regex, country.name.fr.regex, country.name.it.regex.
+```
+
+```{r}
+#| label: Chat GPT 1st response,
+#| eval: false
+#| echo: true
+# This snippet is where ChatGPT correctly identified my mistake in defining origins.
+
+
+# The error you're encountering suggests that the origin argument in the countrycode function is not being provided with a valid value. The origin argument specifies the format of the input country codes, and it must be one of the accepted values.
+# 
+# In your case, it seems like you want to convert existing country codes in your data (wrangled_tophits$country) to country names in English. To fix this issue, you need to ensure that the origin argument is set correctly.
+# Make sure to install and load the 'countrycode' package
+# install.packages("countrycode")
+library(countrycode)
+
+# Assuming your country codes are in ISO2 or ISO3 format
+wrangled_tophits$country <- countrycode(
+  wrangled_tophits$country,
+  origin = 'iso2c',  # or 'iso3c' depending on your data
+  destination = 'country.name.en'
+)
+```
+
+```{r}
+#| label: Chat GPT 2st response-after I described how country are represented in my dataset-which is a mix of initials such as USA and full name such as United Kingdon
+#| eval: false
+#| echo: true
+
+
+
+# If your 'country' column contains a mix of full country names like "United Kingdom" and country codes like "USA," you may need to use multiple countrycode calls to handle both cases.
+# 
+# Here's an example that shows how you can use conditional logic to determine the format of each entry and apply the appropriate countrycode conversion:
+# Make sure to install and load the 'countrycode' package
+# install.packages("countrycode")
+library(countrycode)
+
+# Example data
+wrangled_tophits <- data.frame(
+  country = c("United Kingdom", "USA", "Canada", "Germany")
+)
+
+# Identify the format of each entry and apply countrycode accordingly
+wrangled_tophits$country <- ifelse(
+  grepl("[A-Za-z]", wrangled_tophits$country),  # Check if there are letters
+  countrycode(wrangled_tophits$country, origin = 'country.name', destination = 'iso2c'),
+  countrycode(wrangled_tophits$country, origin = 'iso2c', destination = 'country.name')
+)
+
+# Print the result
+print(wrangled_tophits)
+
+# However,the origin (my scraped dataset) wasn't in iso2c.
+# I further asked CHATgpt to explain each step to me so I can understand its rational
+```
+
+
+Then, I made some slight modifications manually on how destination are defined to ensure consistency
+
+
+```{r}
+#| label: My final product- turn all country into country.name.en scheme
+#| eval: false
+#| echo: true
+wrangled_tophits$country <- ifelse(
+  grepl("[A-Za-z]", wrangled_tophits$country),  # Check if there are letters
+  countrycode(wrangled_tophits$country, origin = 'country.name', destination = 'country.name.en'),
+  countrycode(wrangled_tophits$country, origin = 'iso2c', destination = 'country.name.en')
+)
+```
+
+
+Overall, whether ChatGPT can be helpful in fixing problems related to packages depends on its popularity. Since `Countrycode` is a lot more widely used than `geniusR`, ChatGpt was able to offer helpful solution and explainatory insights. On the other hand, the experience of trying to use it to fix a less popular package is frustrating to say the least.
+
+#### 2. Explaination: errors and internet found solutions: helpful
+
+Explaining errors is one of the most useful feature in Chat GPT.
+
+
+```{r}
+# label: my original code
+# eval: false
+# echo: true
+# When I was cleaning the data from the columns with percentages (which was in character format), my original function looked like this:
+
+remove_percentage_sign <- function(x){
+  x <- gsub("%", "", x)
+  x <- as.numeric(x)
+}
+#which produced the following error
+# original_IFPI_data[,c(3:6)] <- map_df(original_IFPI_data[,c(3:6)], remove_percentage_sign)Warning messages:
+# 1: In .f(.x[[i]], ...) : NAs introduced by coercion
+# 2: In .f(.x[[i]], ...) : NAs introduced by coercion
+# 3: In .f(.x[[i]], ...) : NAs introduced by coercion
+```
+
+
+ChatGPT was able to identify the problem as the presence of non-numeric values in the columns
+
+
+```{r}
+#| label: chatGPT response
+#| eval: false
+#| echo: true
+# It appears that your `remove_percentage_sign` function is correctly defined to remove the percentage sign and convert the values to numeric. However, the warning messages indicate that there are issues with coercion to numeric, possibly due to non-numeric values in the columns.
+# 
+# To handle this, you can modify your function to add additional checks to handle non-numeric values. Here's an updated version of your function:
+
+
+remove_percentage_sign <- function(x) {
+  # Remove percentage sign
+  x <- gsub("%", "", x)
+  
+  # Convert to numeric, handling non-numeric values
+  numeric_values <- suppressWarnings(as.numeric(x))
+  
+  # Replace NA values with 0 or handle them based on your specific use case
+  numeric_values[is.na(numeric_values)] <- 0
+  
+  return(numeric_values)
+}
+
+
+#Then, apply this modified function to your columns using `map_df`:
+
+
+# Assuming original_IFPI_data is your data frame
+columns_to_process <- c("Physical", "Digital", "Performance Rights", "Synchronization")
+
+original_IFPI_data[, columns_to_process] <- map_df(
+  original_IFPI_data[, columns_to_process], 
+  ~ remove_percentage_sign(.x)
+)
+# This modified function will attempt to convert values to numeric, and if it fails (resulting in NA), it will replace those NA values with 0. Adjust the replacement strategy based on your specific requirements. After applying this, check for NAs in your data to ensure that the warning messages are appropriately handled.
+```
+
+
+While I did not utlize its solution (since I don't plan to convert NA to 0), its explanation was helpful in making way for turning the columns to numeric.
+
+
+```{r}
+#| label: my finalized code based on Chat GPT explaination
+#| eval: false
+#| echo: true
+#writing a function to remove % from observations and fix missing values by turning n/a to NA
+remove_percentage_sign_fix_missing <- function(x){
+  x <- gsub('%', '', x)
+  x[x == "n/a"] <- NA
+  x
+}
+#apply the remove_percentage_sign function to the following columns: Physical, Digital, Performance Rights, Synchronization 
+wrangled_IFPI_data[,c(4:7)] <- map_df(wrangled_IFPI_data[,c(4:7)], remove_percentage_sign_fix_missing)
+#I removed the line that converts values to numeric altogether. I fixed NA using the function learned in lecture 4. 
+```
+
+
+When I tried to add a year column that decreases every 11 rows to IFPI dataframe, I found [this solution](https://stackoverflow.com/questions/62513874/how-can-i-create-a-new-column-with-the-same-id-every-n-rows-in-r). Chat GPT was able to explain each step to me so I can incorporate it into my data wrangling.
+
+
+```{r}
+#| label: My question
+#| eval: false
+#| echo: true
+#explain every step of this to me
+bloc_len <- 5
+df$bloc <- 
+  rep(seq(1, 1 + nrow(df) %/% bloc_len), each = bloc_len, length.out = nrow(df))
+```
+
+
+It gave a through explanation, introducing the usage of `rep` to me
+
+
+```{r}
+#| eval: false
+#| echo: true
+# This code generates a sequence of block identifiers and repeats it to match the length of the original data frame (df). Here's a step-by-step breakdown:
+# 
+# seq(1, 1 + nrow(df) %/% bloc_len): This generates a sequence of integers starting from 1 up to the maximum block identifier. The 1 + nrow(df) %/% bloc_len calculates the maximum block identifier based on the total number of rows in the data frame (df) and the block length (bloc_len). %/% is the integer division operator.
+# 
+# rep(..., each = bloc_len, length.out = nrow(df)): This repeats the sequence of block identifiers each times (in this case, bloc_len times) and ensures that the total length of the repeated sequence is equal to the number of rows in the original data frame (nrow(df)).
+# 
+# df$bloc <- ...: Finally, the generated sequence of block identifiers is assigned to a new column called bloc in the original data frame df.
+
+#In summary, this code is creating a new column bloc in the data frame df where each block identifier is repeated bloc_len times, and the total length of the repeated sequence matches the number of rows in the original data frame. This is a way to group data into blocks of size bloc_len.
+```
+
+
+I produced the following code, which ran perfectly
+
+
+```{r}
+#| label: my own interpretation of the code
+#| eval: false
+#| echo: true
+year_len <- 11
+original_IFPI_data$year <- rep(seq(2017, 1 + nrow(original_IFPI_data) %/% year_len), each = year_len, length.out = nrow(original_IFPI_data))
+```
+
+#### 3. adding features to plot: exceedingly helpful
+Using ChatGpt significantly improved my efficiency in modifying the details of graphs. For example, it help me set axis range based on my original code:
+
+```{r}
+#| label: my original code for producing an interactive plot based on the IFPI database
+#| eval: false
+#| echo: true
+# this code snippet is slightly different from the one I used in my visualisation, as I made the plot before I constructed the dashboard- so its from the early stage of my workflow.
+# I asked Chatgpt to set both axis to 100
+IFPI_graph= IFPI_by_year%>%
+  ggplot(aes(x=physical_percentage, 
+             y=digital_percentage,
+             color=market,
+             size=retail_value_us_millions))+
+        geom_point()+
+        labs(title="Global Music Market from 2011 to 2017",
+          x="Physical Percentage",
+          y="Digital Percentage",
+          size="Total retail Value in US$ millions")
+```
+
+ChatGPT provided the following solution which worked perfectly:
+
+```{r}
+#| label: ChatGPT solution to fix scale
+#| eval: false
+#| echo: true
+
+# To set both the x-axis and y-axis limits to 100 in your `IFPI_graph`, you can use the `scale_x_continuous()` and `scale_y_continuous()` functions in ggplot2. Here's how you can modify your code:
+
+IFPI_graph <- IFPI_by_year %>%
+  ggplot(aes(x = physical_percentage, 
+             y = digital_percentage,
+             color = market,
+             size = retail_value_us_millions)) +
+  geom_point() +
+  labs(title = "Global Music Market from 2011 to 2017",
+       x = "Physical Percentage",
+       y = "Digital Percentage",
+       size = "Total retail Value in US$ millions") +
+  scale_x_continuous(limits = c(0, 100)) +
+  scale_y_continuous(limits = c(0, 100))
+
+IFPI_graph
+
+
+# In this modification:
+# 
+# - `scale_x_continuous(limits = c(0, 100))` sets the x-axis limits from 0 to 100.
+# - `scale_y_continuous(limits = c(0, 100))` sets the y-axis limits from 0 to 100.
+# 
+# Adjust the code accordingly based on your data and specific needs. This will ensure that both the x-axis and y-axis limits range from 0 to 100.
+```
+
+In another case, it came up with solutions to change the labels of the legend.Although its suggestion, mutating a new column is surprisingly simple, it was nevertheless effective.
+
+
+```{r}
+#| label: my original scatter plot
+#| eval: false
+#| echo: true
+# My original code:
+tophits_uk <- %>%
+  filter(country == "United Kingdom")
+
+plot_ly(tophits_uk, x = ~track.popularity, y = ~danceability, color = ~track.explicit, colors = c('blue', 'red')) %>%
+  add_trace()%>%
+  layout(title = "Relationship between Popularity and Danceability",
+         xaxis = list(title = "popularity"),
+         yaxis = list (title = "danceability")) 
+         
+# I was looking for ways to change the display of the variable track.explicit to "explicit" and "non-explicit instead of true and false
+```
+
+```{r}
+#| label: ChatGPT solution to creat a new coloumn for the purpose of changing legend display
+#| eval: false
+#| echo: true
+#ChatGPT's solution:
+# To change the display of the track.explicit variable to "explicit" and "non-explicit" instead of TRUE and FALSE in your plot_ly plot in R using plotly, you can use the mutate function to create a new column that maps TRUE to "explicit" and FALSE to "non-explicit". Here's an example:
+
+# Assuming tophits_uk is your data frame
+tophits_uk <- tophits_uk %>%
+  filter(country == "United Kingdom") %>%
+  mutate(explicit_label = ifelse(track.explicit, "explicit", "non-explicit"))
+
+plot_ly(tophits_uk, x = ~track.popularity, y = ~danceability, color = ~explicit_label, colors = c('blue', 'red')) %>%
+  add_trace() %>%
+  layout(title = "Relationship between Popularity and Danceability",
+         xaxis = list(title = "Popularity"),
+         yaxis = list(title = "Danceability"),
+         colorbar = list(title = "Explicit"))
+```
+
+Although there are many times when ChatGPT failed to provide me with a runnable solution, it was suitable for making simple refinements. Compared to solutions on stackoverflow or CRAN, its is more tailored to my code and therefore saves the time on adaption. 
+
+## Part III tempory- app testing
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{r}
+#| context: server
+# data wrangling----
+original_tophits <- read_csv("140123tophits.csv")
+
+wrangled_tophits <- original_tophits %>%
+  select(playlist_name, danceability, energy, key, loudness,speechiness, acousticness, instrumentalness, liveness, valence, tempo, track.explicit, track.popularity, track.name)%>%
+  rename(country = playlist_name)#rename the playlist_name column to country
+
+#Remove the "Top 50 -  "from the country column
+wrangled_tophits$country <- gsub("Top 50 - ", "", wrangled_tophits$country)
+#standardize the country names using countrycode package
+wrangled_tophits$country <- ifelse(
+  grepl("[A-Za-z]", wrangled_tophits$country),  # Check if there are letters
+  countrycode(wrangled_tophits$country, origin = 'country.name', destination = 'country.name.en'),
+  countrycode(wrangled_tophits$country, origin = 'iso2c', destination = 'country.name.en')
+)
+original_IFPI_data <- read_csv("140123original_IFPI_data.csv")
+year_len <- 11
+original_IFPI_data$year <- rep(seq(2017, 1 + nrow(original_IFPI_data) %/% year_len), each = year_len, length.out = nrow(original_IFPI_data))
+
+#removing `% Change` column, which is all NA
+wrangled_IFPI_data <- original_IFPI_data %>%
+  select(!`% Change`)
+
+#removing "," from the `Retail valueUS$ (millions)` column to convert it to numeric value
+wrangled_IFPI_data$`Retail valueUS$ (millions)` <- gsub(',', '', wrangled_IFPI_data$`Retail valueUS$ (millions)`)
+
+wrangled_IFPI_data$`Retail valueUS$ (millions)` <- as.numeric(wrangled_IFPI_data$`Retail valueUS$ (millions)`)
+
+#tidying observations----
+#fix NA
+remove_percentage_sign_fix_missing <- function(x){
+  x <- gsub('%', '', x)
+  x[x == "n/a"] <- NA
+  x
+}
+#apply the remove_percentage_sign function to the following columns: Physical, Digital, Performance Rights, Synchronization 
+wrangled_IFPI_data[,c(4:7)] <- purrr::map_df(wrangled_IFPI_data[,c(4:7)], remove_percentage_sign_fix_missing)
+
+# cleaning names----
+#use janitor to clean the column names
+wrangled_IFPI_data <- janitor::clean_names(wrangled_IFPI_data)
+#standardize the country names using countrycode package
+wrangled_IFPI_data$market <- ifelse(
+  grepl("[A-Za-z]", wrangled_IFPI_data$market),  # Check if there are letters
+  countrycode(wrangled_IFPI_data$market, origin = 'country.name', destination = 'country.name.en'),
+  countrycode(wrangled_IFPI_data$market, origin = 'iso2c', destination = 'country.name.en')
+)
+
+# subsetting global data (NA after standardinsing country names) to a new dataset----
+global_IFPI_data <- wrangled_IFPI_data %>%
+  filter(is.na(market))%>%
+  select(year,retail_value_us_millions)
+#change the retail_value_us_millions column to numeric
+global_IFPI_data$retail_value_us_millions <- as.numeric(global_IFPI_data$retail_value_us_millions)
+#change the year column to character
+global_IFPI_data$year <- as.character(global_IFPI_data$year)
+# turning character to numerics for data visualisation----
+#change column 4-7 to numeric, and then adding 'percentage' to the end of column 4-7
+wrangled_IFPI_data[,c(4:7)] <- purrr::map_df(wrangled_IFPI_data[,c(4:7)], as.numeric)
+colnames(wrangled_IFPI_data)[4:7] <- paste(colnames(wrangled_IFPI_data)[4:7],' percentage')
+#remove the NA rows (global data is already subsetted)
+wrangled_IFPI_data <- wrangled_IFPI_data[!is.na(wrangled_IFPI_data$market),]
+#Market plot----
+
+
+IFPI_by_year <- reactive({
+    wrangled_IFPI_data %>%
+  filter(!is.na(market)) %>%
+  filter(year == input$yearslider) 
+})
+  
+output$musicmarket <- renderPlot({
+  
+I<-IFPI_by_year%>%
+  ggplot(aes(x=physical_percentage, 
+             y=digital_percentage,
+             color=market,
+             size=retail_value_us_millions))+
+  geom_point()+
+  labs(title="Global Music Market from 2011 to 2017",
+       x="Physical Percentage",
+       y="Digital Percentage",
+       size="Total retail Value in US$ millions")+
+  scale_x_continuous(limits = c(0, 100)) +
+  scale_y_continuous(limits = c(0, 100))
+I
+})
+ 
+
+
+
+output$radar_chart <- renderPlot({
+
+  # some data wrangling to calculate the means
+  radar_uk_tophits <- wrangled_tophits %>%
+    filter(country == input$radar_country) %>%
+    select(danceability, energy, liveness, valence, acousticness)
+
+  radar_uk_tophits_mean <- radar_uk_tophits %>%
+    summarise_all(mean)
+
+  # Add min and max for radar plot
+  radar_uk_tophits_mean <- rbind(radar_uk_tophits_mean, rep(1))
+  radar_uk_tophits_mean <- rbind(radar_uk_tophits_mean, rep(0))
+
+  # Move the third row to the first row - so that max and min are in the front, ready for plotting radar chart
+  radar_uk_tophits_mean <- radar_uk_tophits_mean[c(3, 2, 1),]
+
+ 
+  colors_fill <- c(scales::alpha("orchid", 0.1))
+  colors_line <- c(scales::alpha("orchid4", 0.5))
+
+  
+  radarchart(
+    radar_uk_tophits_mean,
+    seg = 5,axistype = 1,
+pcol = colors_fill, pfcol = colors_line, plwd = 4, plty = 1,cglcol = "grey", cglty = 1, axislabcol = "hotpink", caxislabels = seq(0, 1, 0.1), cglwd = 1,
+vlcex = 0.8
+  )
+
+})
+
+# ploting audio feature-----
+tophits_choosen <- reactive({
+    wrangled_tophits %>%
+      filter(country == input$country_buttons) %>%
+      mutate(explicit_label = ifelse(track.explicit, "explicit", "non-explicit"))
+  })
+
+output$audio_features <- renderPlotly({
+  p<-plot_ly(tophits_choosen(), 
+        x = ~track.popularity, 
+        y = ~get(input$Yvar), 
+        color = ~explicit_label, 
+        colors = c('orchid', 'royalblue'),text=~track.name, hoverinfo="text") %>%
+  layout(title = "1.Relationship between Popularity and different audio features",
+         xaxis = list(title = "popularity"),
+         yaxis = list (title = input$Yvar))
+  p
+})
+
+
+
+```
+
