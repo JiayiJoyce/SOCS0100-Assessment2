@@ -10,9 +10,6 @@ bibliography: references.bib
 ---
 
 ## Part I
-
-Remove the `#` in the source code before `groundhog.library(pkgs, "2024-01-04")` to install setup packages.
-
 ```{r}
 #| context: setup
 #| echo: true
@@ -20,9 +17,9 @@ Remove the `#` in the source code before `groundhog.library(pkgs, "2024-01-04")`
 #| warning: false
 #check whether groundhog is installed on the computer, install if not. Remove # to install
 
-if (!require("groundhog")) {
-  install.packages("groundhog")
-}
+# if (!require("groundhog")) {
+#   install.packages("groundhog")
+# }
 
 pkgs <- c(
   "spotifyr", #wrapper for spotify API
@@ -45,12 +42,12 @@ pkgs <- c(
 )
 
 
-groundhog.library(pkgs, "2024-01-04")
+#groundhog.library(pkgs, "2024-01-04")
 ```
 
 ### A. Automated data collection
 
-In this assignment I aim to analyze the current trend of popular music in the US,Japan,UK,Germany,France and South Korea: 6 countries with the biggest musical markets according to the latest [International Federation of the Phonographic Industry (IFPI) report](https://en.wikipedia.org/wiki/List_of_largest_recorded_music_markets) A static scraping is performed on Wikipedia to obtain annual data.
+In this assignment I aim to analyze the current trend of popular music in dominant music markets across the globe according to the latest [International Federation of the Phonographic Industry (IFPI) report](https://en.wikipedia.org/wiki/List_of_largest_recorded_music_markets). A static scraping is performed on Wikipedia to obtain annual data.
 
 ```{r}
 #| eval: false
@@ -76,7 +73,7 @@ if(paths_allowed("https://en.wikipedia.org/wiki/List_of_largest_recorded_music_m
 write_csv(original_IFPI_data,"140123original_IFPI_data.csv") 
 ```
 
-I choose to collect music-related data through Spotify API as it offers an interface to relevant databases, which in this case include up to date popular playlists and data on relevant audio features. Furthermore, the [spotifyr](https://www.rcharlie.com/spotifyr/) package provided a wrapper which made it easier for me to integrate the API output.
+I then collect music-related data through Spotify API as it offers an interface to relevant databases, which include up to date popular playlists and data on relevant audio features. Furthermore, the [spotifyr](https://www.rcharlie.com/spotifyr/) package provided a wrapper which made it easier for me to integrate the API output.
 
 ```{r}
 #| eval: false
@@ -186,7 +183,7 @@ wrangled_IFPI_data <- wrangled_IFPI_data[!is.na(wrangled_IFPI_data$market),]
 
 ```
 
-In the end, I produced two tidied data frames: `global_IFPI_data` and `wrangled_IFPI_data`.
+In the end, I produced a tidied data frame: `wrangled_IFPI_data`.
 
 Data from the Spotify API is more tidy and comprehensive. Tidying it is mainly to remove unnecessary columns and stardardize column names.
 
@@ -210,30 +207,20 @@ wrangled_tophits$country <- ifelse(
 
 ```
 
-The end product is a tidy dataframe: `wrangled_tophits`.
+The end product is a tidied dataframe: `wrangled_tophits`.
 
 ##### Overview of datasets
 
-The `wrangled_IFPI_data` dataframe contains the music market value from 2011 to 2017, with 8 columns and 77 rows. It showcases how concentrated different facets of the music market (`physical`, `digital`, `performance rights`) are in different countries and therefore have implications in the study of media [@geurts2023]in social science.
+The `wrangled_IFPI_data` dataframe contains the music market value from 2011 to 2017, with 8 columns and 77 rows. It showcases the percentage of different facets of the music market (`physical`, `digital`, `performance rights`) in countries with leading market sizes and therefore have implications in the study of media [@geurts2023]in social science.
 
 ```{r}
 summary(wrangled_IFPI_data)%>%
   knitr::kable()%>%
   kable_styling(full_width = F, position = "center") %>% 
-  row_spec(row = 1:6, background = "azure", color = "palevioletred")
+  row_spec(row = 1:6, background = "aliceblue", color = "orchid")
 ```
 
-The `global_IFPI_data` dataframe contains the global music market value (numeric) in million \$ in the same period, with 2 columns and 7 rows.It provides a more holistic view of the music industry.
-
-```{r}
-summary(global_IFPI_data)%>%
-  knitr::kable()%>%
-  kable_styling(full_width = F, position = "center") %>% 
-  row_spec(row = 1:6, background = "azure", color = "palevioletred")
-
-```
-
-The `wrangled_tophits` dataframe contains the audio features (including `valence`, `dancability`, etc.) of the top 50 songs in 6 countries, with 14 columns and 300 rows. Most of these audio features are numeric, with some, such as `track.explicit` are logical, and `track.name` is a character variable.It can potentially provide an up-to-date insight on the musical taste, an important cultural aspect[@aarons2018], in countries with the most developed music industry.
+The `wrangled_tophits` dataframe contains the audio features (including `valence`, `dancability`, etc.) of the top 50 songs in 6 countries, with 14 columns and 300 rows. Most of these audio features are numeric and rated from 0-1, making it easy for cross comparison. Others, such as `track.explicit` and `track.name` are logical or characters. It provide an up-to-date insight on the musical taste, an important cultural aspect[@aarons2018], in countries with the most developed music industry.
 
 ```{r}
 summary(wrangled_tophits)%>%
@@ -245,11 +232,13 @@ summary(wrangled_tophits)%>%
 
 ## Part II
 
-### A. R Shiny interactive dashboard
+### A. Interactive visualisations
 
-The following diagram is suitable for showcasing whether specific audio features correlates with `popularity` under different cultural contexts.
+The following diagram is suitable for showcasing whether specific audio features correlates with `popularity` under different cultural contexts. Each observation is one of the `Top 50 hit songs`. Upon hovering, specific name of the song that makes up the datapoints is shown.
 
 -   It is note worthy that Asian countries, such as Japan and South Korea, have a lot less explicit songs in their top 50 list compared to European and American countries.
+
+-   Further analysis about correlation can be built upon this,although upon glance tophits in Japan are highly concentrated interms of popularity- most fall between the 70-80 range, while similar phenomenon isn't observed elsewhere.
 
 ```{r}
 #| echo: true
@@ -271,9 +260,14 @@ radioButtons("country_buttons", label = h3("Select country to view audio feature
 #| panel: fill
 #| echo: true
 plotlyOutput('audio_features')
+
 ```
 
-The following radar diagram provides a direct holistic comparison between the audio features of top 50 songs in the six countries I chose to scrape. It is note worthy that popular songs in japan is weakest in terms of `energy` and `valence`. This provide grounds for future research regarding the cultual difference.
+The following radar diagram provides a direct holistic comparison between the avearage of essential audio features of top 50 songs in the six countries. Radargraph is choosen because the five variables are all rated on the same scale (from 0-1) by spotify. 
+
+-   Popular songs in Japan is weakest in terms of `energy` and `valence`. This provide grounds for future research regarding the Cultual difference.
+
+- Unlike plotly, `fmsb` pacakge that generates radarchart does not contain download feature, so I wrote a link for download below the graph.
 
 ```{r}
 #| echo: true
@@ -290,7 +284,15 @@ selectInput("radar_country", label = h3("Select a country to view mean audio fea
 #| panel: fill
 #| echo: true
 plotOutput('radar_chart')
+downloadLink("downloadRadar", "Download Radar Chart for your choosen country")
+
 ```
+
+This diagram shows changes in major music markets and their level of digitization.
+
+-   It showcased that while US and Japan has two of the larges music markets, they operate in drastically different trends. While US is rapidly digitizing during 2011-2017, Japan's market remained highly physical.
+
+-   This indicates that top hits collected from Spotify, an on-line platform, may not be representative of the average music taste in Japan.
 
 ```{r}
 #| panel: sidebar
@@ -306,7 +308,7 @@ sliderInput("yearslider", label = h3("Select year"), min = 2011,
 plotOutput('musicmarket')
 ```
 
-An animated version that can be manually activated can be found below.
+The code for an animated version that can be manually activated is attached below, where shadows are added to better showcase the dynamics.
 
 ```{r}
 #| echo: true
@@ -327,6 +329,8 @@ animate(IFPI_graph.animation, renderer = gifski_renderer(),fps=15,duration= 5)
 ```
 
 ### B. Reproducibility
+
+Please see the `README.md` file for further information.
 
 ### C. Critical engagement with AI
 
@@ -653,14 +657,6 @@ IFPI_graph <- IFPI_by_year %>%
   scale_y_continuous(limits = c(0, 100))
 
 IFPI_graph
-
-
-# In this modification:
-# 
-# - `scale_x_continuous(limits = c(0, 100))` sets the x-axis limits from 0 to 100.
-# - `scale_y_continuous(limits = c(0, 100))` sets the y-axis limits from 0 to 100.
-# 
-# Adjust the code accordingly based on your data and specific needs. This will ensure that both the x-axis and y-axis limits range from 0 to 100.
 ```
 
 In another case, it came up with solutions to change the labels of the legend.Although its suggestion, mutating a new column is surprisingly simple, it was nevertheless effective.
@@ -702,13 +698,16 @@ plot_ly(tophits_uk, x = ~track.popularity, y = ~danceability, color = ~explicit_
          colorbar = list(title = "Explicit"))
 ```
 
-Although there are many times when ChatGPT failed to provide me with a runnable solution, it was suitable for making simple refinements. Compared to solutions on stackoverflow or CRAN, its is more tailored to my code and therefore saves the time on adaption.
+Although there are many times when ChatGPT failed to provide me with a runnable solution (roughly 8 out of 10 times the code won't run), it was suitable for making simple refinements. Compared to solutions on stackoverflow or CRAN, its is tailored to my code and therefore saves the time compared to adapting internet solution to my own code. 
 
-## Part III Sever code
+I used the explanatory function of ChatGPT as a form of dictionary throughout the process, as it can breaks code chunks down into steps and explain each line. This function allowed me to continuously reinforce my memory of the coding language throughout the process of coding.
+
+
+## Part III Server code (view in r studio)
 
 ```{r}
 #| context: server
-#| echo: true
+
 # data wrangling----
 original_tophits <- read_csv("140123tophits.csv")
 
@@ -777,6 +776,8 @@ global_IFPI_data$retail_value_us_millions <- as.numeric(global_IFPI_data$retail_
 
 global_IFPI_data$year <- as.numeric(global_IFPI_data$year)
 
+
+
 #static Market plot----
 output$musicmarket <- renderPlot({
   
@@ -830,6 +831,64 @@ title=paste("2.Characteristic of tophits in different country")
 
 })
 
+
+radarchart4d <- reactive({
+  
+  # some data wrangling to calculate the means
+  radar_uk_tophits <- wrangled_tophits %>%
+    filter(country == input$radar_country) %>%
+    select(danceability, energy, liveness, valence, acousticness)
+
+  radar_uk_tophits_mean <- radar_uk_tophits %>%
+    summarise_all(mean)
+
+  # Add min and max for radar plot
+  radar_uk_tophits_mean <- rbind(radar_uk_tophits_mean, rep(1))
+  radar_uk_tophits_mean <- rbind(radar_uk_tophits_mean, rep(0))
+
+  # Move the third row to the first row - so that max and min are in the front, ready for plotting radar chart
+  radar_uk_tophits_mean <- radar_uk_tophits_mean[c(3, 2, 1),]
+
+ 
+  colors_fill <- c(scales::alpha("orchid", 0.1))
+  colors_line <- c(scales::alpha("orchid4", 0.5))
+
+  
+  radarchart(
+    radar_uk_tophits_mean,
+    seg = 5,axistype = 1,
+pcol = colors_fill, pfcol = colors_line, plwd = 4, plty = 1,cglcol = "grey", cglty = 1, axislabcol = "hotpink", caxislabels = seq(0, 1, 0.1), cglwd = 1,vlcex = 0.8,
+title=paste("2.Characteristic of tophits in different country")
+  )
+  
+})
+
+
+
+
+
+
+
+
+
+
+# this part is refined by chatGPT. My original code was base on https://community.rstudio.com/t/shiny-download-ggplot/90532/2 which did not ran successfully the first few times. 
+output$downloadRadar <- downloadHandler(
+    filename = function() {
+      paste("radar_chart_", input$radar_country, ".png", sep = "")
+    },
+    content = function(file) {
+      # Save the radar chart as a PNG file
+      png(file)
+      print(radarchart4d())  # Redraw the radar chart
+      dev.off()
+    }
+  )
+
+
+
+
+
 # ploting audio feature-----
 tophits_choosen <- reactive({
     wrangled_tophits %>%
@@ -844,8 +903,8 @@ output$audio_features <- renderPlotly({
         color = ~explicit_label, 
         colors = c('orchid', 'royalblue'),text=~track.name, hoverinfo="text") %>%
   layout(title = "1.Relationship between Popularity and different audio features",
-         xaxis = list(title = "popularity"),
-         yaxis = list (title = input$Yvar))
+         xaxis = list(title = "popularity", range = c(50, 100)),
+         yaxis = list (title = input$Yvar, range = c(0,1)))
   p
 })
 
