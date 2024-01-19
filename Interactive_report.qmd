@@ -10,13 +10,14 @@ bibliography: references.bib
 ---
 
 ## Part I
+
 ```{r}
 #| context: setup
 #| echo: true
 #| message: false
 #| warning: false
 #check whether groundhog is installed on the computer, install if not. Remove # to install
-
+rm(list = ls())
 # if (!require("groundhog")) {
 #   install.packages("groundhog")
 # }
@@ -42,7 +43,8 @@ pkgs <- c(
 )
 
 
-#groundhog.library(pkgs, "2024-01-04")
+# groundhog.library(pkgs, "2024-01-04")
+
 ```
 
 ### A. Automated data collection
@@ -53,7 +55,7 @@ In this assignment I aim to analyze the current trend of popular music in domina
 #| eval: false
 #| echo: true
 
-#1.1static scraping annual IFPI data from 2011 to 2017
+#2.static scraping annual IFPI data from 2011 to 2017
 # If the website allows scraping, then proceed scraping, else print error message
 if(paths_allowed("https://en.wikipedia.org/wiki/List_of_largest_recorded_music_markets")){
   # function that enables parsing multiple tables automatically on wikipedia
@@ -79,7 +81,7 @@ I then collect music-related data through Spotify API as it offers an interface 
 #| eval: false
 #| echo: true
 #The scraping code chunks are disabled as they require private API key to run. Data wrangling and visualization will be based on data scrapped on 14 Jan 2023.
-#2.1Using spotifyr to access API and scrape top hits from top 6 countries----
+#3.Using spotifyr to access API and scrape top hits from top 6 countries----
 #creating a variable called access token----
 Sys.setenv(SPOTIFY_CLIENT_ID = 'paste your own client id here')
 Sys.setenv(SPOTIFY_CLIENT_SECRET = 'paste your own client secret here')
@@ -211,7 +213,7 @@ The end product is a tidied dataframe: `wrangled_tophits`.
 
 ##### Overview of datasets
 
-The `wrangled_IFPI_data` dataframe contains the music market value from 2011 to 2017, with 8 columns and 77 rows. It showcases the percentage of different facets of the music market (`physical`, `digital`, `performance rights`) in countries with leading market sizes and therefore have implications in the study of media [@geurts2023]in social science.
+The `wrangled_IFPI_data` dataframe contains the value of music markets in different countries from 2011 to 2017, with 8 columns and 77 rows. It showcases the percentage of different facets of the music market (`physical`, `digital`, `performance rights`) in countries with leading market sizes and therefore have implications in the study of the concentration of the media [@geurts2023]in social science.
 
 ```{r}
 summary(wrangled_IFPI_data)%>%
@@ -221,6 +223,8 @@ summary(wrangled_IFPI_data)%>%
 ```
 
 The `wrangled_tophits` dataframe contains the audio features (including `valence`, `dancability`, etc.) of the top 50 songs in 6 countries, with 14 columns and 300 rows. Most of these audio features are numeric and rated from 0-1, making it easy for cross comparison. Others, such as `track.explicit` and `track.name` are logical or characters. It provide an up-to-date insight on the musical taste, an important cultural aspect[@aarons2018], in countries with the most developed music industry.
+
+Detailed deinition of variables on audio features by the official Spotify API site can be found [here](https://developer.spotify.com/documentation/web-api/reference/get-audio-features)
 
 ```{r}
 summary(wrangled_tophits)%>%
@@ -248,8 +252,6 @@ radioButtons("country_buttons", label = h3("Select country to view audio feature
                choices = unique(wrangled_tophits$country),
                selected = "France")
 
- 
-
  selectInput("Yvar", label = h3("Select variable for y-axis"), 
     choices = names(wrangled_tophits)[c(2, 3, 6,9,10)], 
     selected = 1)
@@ -263,11 +265,11 @@ plotlyOutput('audio_features')
 
 ```
 
-The following radar diagram provides a direct holistic comparison between the avearage of essential audio features of top 50 songs in the six countries. Radargraph is choosen because the five variables are all rated on the same scale (from 0-1) by spotify. 
+The following radar diagram provides a direct holistic comparison between the avearage of essential audio features of top 50 songs in the six countries. Radargraph is choosen because the five variables are all rated on the same scale (from 0-1) by spotify.
 
 -   Popular songs in Japan is weakest in terms of `energy` and `valence`. This provide grounds for future research regarding the Cultual difference.
 
-- Unlike plotly, `fmsb` pacakge that generates radarchart does not contain download feature, so I wrote a link for download below the graph.
+-   Unlike plotly, `fmsb` pacakge that generates radarchart does not contain download feature, so I wrote a link for download below the graph.
 
 ```{r}
 #| echo: true
@@ -290,7 +292,11 @@ downloadLink("downloadRadar", "Download Radar Chart for your choosen country")
 
 This diagram shows changes in major music markets and their level of digitization.
 
--   It showcased that while US and Japan has two of the larges music markets, they operate in drastically different trends. While US is rapidly digitizing during 2011-2017, Japan's market remained highly physical.
+-   It showcased that while US and Japan has two of the largest music markets, they operate in drastically different trends.
+
+-   During the process of digitizaiton, US's market continued to grow in size drastically, as showcased by the size of the pink dot.
+
+-   While US is rapidly digitizing during 2011-2017, Japan's market remained highly physical.
 
 -   This indicates that top hits collected from Spotify, an on-line platform, may not be representative of the average music taste in Japan.
 
@@ -311,11 +317,12 @@ plotOutput('musicmarket')
 The code for an animated version that can be manually activated is attached below, where shadows are added to better showcase the dynamics.
 
 ```{r}
+#| label: animated market chart
 #| echo: true
 #| eval: false
 # follow the following steps to view the animation- since animation can't be embedded into rendered dashboard, Manually running it in r studio is needed.
 # 1. open the .qmd file in R-studio without rendering it
-# 2. scroll to the bottom and run the server code chunk, ignore the error message- this step is done to import the wrangled data into the environment
+# 2. run the setup chunk at the top, then scroll to the bottom and run the server code chunk, ignore the error message- this step is done to import the wrangled data into the environment
 # 3. select and run the following code to view animation in the Viewer panel. It may take around 30 seconds to render.
 
 IFPI_graph= wrangled_IFPI_data%>%
@@ -698,17 +705,17 @@ plot_ly(tophits_uk, x = ~track.popularity, y = ~danceability, color = ~explicit_
          colorbar = list(title = "Explicit"))
 ```
 
-Although there are many times when ChatGPT failed to provide me with a runnable solution (roughly 8 out of 10 times the code won't run), it was suitable for making simple refinements. Compared to solutions on stackoverflow or CRAN, its is tailored to my code and therefore saves the time compared to adapting internet solution to my own code. 
+Although there are many times when ChatGPT failed to provide me with a runnable solution (roughly 8 out of 10 times the code won't run), it was suitable for making simple refinements. Compared to solutions on stackoverflow or CRAN, its is tailored to my code and therefore saves the time compared to adapting internet solution to my own code.
 
 I used the explanatory function of ChatGPT as a form of dictionary throughout the process, as it can breaks code chunks down into steps and explain each line. This function allowed me to continuously reinforce my memory of the coding language throughout the process of coding.
-
 
 ## Part III Server code (view in r studio)
 
 ```{r}
 #| context: server
 
-# data wrangling----
+
+# data wranglingtophits----
 original_tophits <- read_csv("140123tophits.csv")
 
 wrangled_tophits <- original_tophits %>%
@@ -723,7 +730,7 @@ wrangled_tophits$country <- ifelse(
   countrycode(wrangled_tophits$country, origin = 'country.name', destination = 'country.name.en'),
   countrycode(wrangled_tophits$country, origin = 'iso2c', destination = 'country.name.en')
 )
-#1.2data wrangling----
+# data wrangling IFPI---- 
 original_IFPI_data <- read_csv("140123original_IFPI_data.csv")
 #adding year column 
 year_len <- 11
