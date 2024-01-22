@@ -5,7 +5,7 @@
 ## What the project include
 
 1.  an `interactive_report.qmd` and an `interactive_report` file, which include the three interactive visualisations
-2.  an app called `interactive visualisations`, which features the same visualisation but in app format
+2.  an app file called `interactive visualisations`, which features the same visualisation but in app format
 3.  `140123original_IFPI_data.csv` : data statically scrapped from IFPI report
 4.  `140123tophits.csv`: data collected using spotify API consists of 50 top hits songs from 6 countries on 14 Jan 2023
 5.  `references.bib` : reference list for academic papers cited

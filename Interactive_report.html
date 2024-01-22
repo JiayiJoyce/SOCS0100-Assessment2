@@ -387,8 +387,8 @@ div.csl-indent {
 
 </div>
 </div>
-<p>The <code>wrangled_tophits</code> dataframe contains the audio features (including <code>valence</code>, <code>dancability</code>, etc.) of the top 50 songs in 6 countries, with 14 columns and 300 rows. Most of these audio features are numeric and rated from 0-1, making it easy for cross comparison. Others, such as <code>track.explicit</code> and <code>track.name</code> are logical or characters. It provide an up-to-date insight on the musical taste, an important cultural aspect<span class="citation" data-cites="aarons2018">(<a href="#ref-aarons2018" role="doc-biblioref">Aarons 2018</a>)</span>, in countries with the most developed music industry.</p>
-<p>Detailed deinition of variables on audio features by the official Spotify API site can be found <a href="https://developer.spotify.com/documentation/web-api/reference/get-audio-features">here</a></p>
+<p>The <code>wrangled_tophits</code> dataframe contains the audio features (including <code>valence</code>, <code>dancability</code>, etc.) of the top 50 songs in 6 countries, with 14 columns and 300 rows. The six countries are selected as the size of their music market are by far the largest according to the IFPI data. Most of these audio features are numeric and rated from 0-1, making it easy for cross comparison. Others, such as <code>track.explicit</code> and <code>track.name</code> are logical or characters. It provide an up-to-date insight on the musical taste, an important cultural aspect<span class="citation" data-cites="aarons2018">(<a href="#ref-aarons2018" role="doc-biblioref">Aarons 2018</a>)</span>, in countries with the most developed music industry.</p>
+<p>The following analysis will be focusing on five dimensions: Dancibility, Valence, Energy, Speachiness and Instrumentalness. They are metrics developed by Spotify that measures audio features on a scale of 0-1. Detailed definition of variables on audio features by the official Spotify API site can be found <a href="https://developer.spotify.com/documentation/web-api/reference/get-audio-features">here</a>.</p>
 <div class="cell">
 <div class="cell-output-display">
 <table class="table table-sm table-striped small" data-quarto-postprocess="true">
@@ -530,7 +530,7 @@ div.csl-indent {
 <p>The following diagram is suitable for showcasing whether specific audio features correlates with <code>popularity</code> under different cultural contexts. Each observation is one of the <code>Top 50 hit songs</code>. Upon hovering, specific name of the song that makes up the datapoints is shown.</p>
 <ul>
 <li><p>It is note worthy that Asian countries, such as Japan and South Korea, have a lot less explicit songs in their top 50 list compared to European and American countries.</p></li>
-<li><p>Further analysis about correlation can be built upon this,although upon glance tophits in Japan are highly concentrated interms of popularity- most fall between the 70-80 range, while similar phenomenon isn’t observed elsewhere.</p></li>
+<li><p>Further analysis about correlation can be built upon this,although upon glance tophits in Japan are highly concentrated in terms of popularity- most fall between the 70-80 range, while similar phenomenon isn’t observed elsewhere.</p></li>
 </ul>
 <div class="panel-grid layout-sidebar ms-md-0 layout-sidebar-left">
 <div class="cell panel-sidebar card bg-light p-2 g-col-24 g-col-lg-7">
@@ -678,7 +678,7 @@ div.csl-indent {
 <p>This diagram shows changes in major music markets and their level of digitization.</p>
 <ul>
 <li><p>It showcased that while US and Japan has two of the largest music markets, they operate in drastically different trends.</p></li>
-<li><p>During the process of digitizaiton, US’s market continued to grow in size drastically, as showcased by the size of the pink dot.</p></li>
+<li><p>During the process of digitization, US’s market continued to grow in size drastically, as showcased by the size of the pink dot.</p></li>
 <li><p>While US is rapidly digitizing during 2011-2017, Japan’s market remained highly physical.</p></li>
 <li><p>This indicates that top hits collected from Spotify, an on-line platform, may not be representative of the average music taste in Japan.</p></li>
 </ul>
@@ -728,7 +728,7 @@ div.csl-indent {
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># follow the following steps to view the animation- since animation can't be embedded into rendered dashboard, Manually running it in r studio is needed.</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. open the .qmd file in R-studio without rendering it</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. scroll to the bottom and run the server code chunk, ignore the error message- this step is done to import the wrangled data into the environment</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. run the setup chunk at the top, then scroll to the bottom and run the server code chunk, ignore the error message- this step is done to import the wrangled data into the environment</span></span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. select and run the following code to view animation in the Viewer panel. It may take around 30 seconds to render.</span></span>
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>IFPI_graph<span class="ot">=</span> wrangled_IFPI_data<span class="sc">%&gt;%</span></span>
@@ -743,7 +743,13 @@ div.csl-indent {
 </section>
 <section id="b.-reproducibility" class="level3">
 <h3 class="anchored" data-anchor-id="b.-reproducibility">B. Reproducibility</h3>
-<p>Please see the <code>README.md</code> file for further information.</p>
+<ul>
+<li><p>the packages used will be loaded via <code>Groundhog</code> as they are available on 04-Jan-2023</p></li>
+<li><p>the scraped data are stored in their original form on 14-Jan-2023 in this file</p></li>
+<li><p>the radar chart and the scatter plot are downloadable for future reference</p></li>
+<li><p>Both the app and the interactive report runs on version 2023.09.0+463 (2023.09.0+463) of R-studio.</p></li>
+<li><p>Please see the <code>README.md</code> file for further information.</p></li>
+</ul>
 </section>
 <section id="c.-critical-engagement-with-ai" class="level3">
 <h3 class="anchored" data-anchor-id="c.-critical-engagement-with-ai">C. Critical engagement with AI</h3>
@@ -1053,7 +1059,7 @@ div.csl-indent {
 </details>
 </div>
 <p>Although there are many times when ChatGPT failed to provide me with a runnable solution (roughly 8 out of 10 times the code won’t run), it was suitable for making simple refinements. Compared to solutions on stackoverflow or CRAN, its is tailored to my code and therefore saves the time compared to adapting internet solution to my own code.</p>
-<p>I used the explanatory function of ChatGPT as a form of dictionary throughout the process, as it can breaks code chunks down into steps and explain each line. This function allowed me to continuously reinforce my memory of the coding language throughout the process of coding.</p>
+<p>There are other ways in which ChatGPT supported my computational process. I used the explanatory function of ChatGPT as a form of dictionary throughout the process, as it can breaks code chunks down into steps and explain each line. This function allowed me to continuously reinforce my memory of the coding language throughout the process of coding.</p>
 </section>
 </section>
 </section>
@@ -1257,7 +1263,7 @@ title=paste("2.Characteristic of tophits in different country")
 
 
 
-
+# Download graph------
 # this part is refined by chatGPT. My original code was base on https://community.rstudio.com/t/shiny-download-ggplot/90532/2 which did not ran successfully the first few times. 
 output$downloadRadar <- downloadHandler(
     filename = function() {

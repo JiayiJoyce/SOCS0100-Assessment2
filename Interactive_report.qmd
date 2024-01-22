@@ -11,13 +11,16 @@ bibliography: references.bib
 
 ## Part I
 
+The following contains the setup code.
+
 ```{r}
 #| context: setup
 #| echo: true
 #| message: false
 #| warning: false
 #check whether groundhog is installed on the computer, install if not. Remove # to install
-rm(list = ls())
+
+# rm(list = ls())
 # if (!require("groundhog")) {
 #   install.packages("groundhog")
 # }
@@ -222,9 +225,9 @@ summary(wrangled_IFPI_data)%>%
   row_spec(row = 1:6, background = "aliceblue", color = "orchid")
 ```
 
-The `wrangled_tophits` dataframe contains the audio features (including `valence`, `dancability`, etc.) of the top 50 songs in 6 countries, with 14 columns and 300 rows. Most of these audio features are numeric and rated from 0-1, making it easy for cross comparison. Others, such as `track.explicit` and `track.name` are logical or characters. It provide an up-to-date insight on the musical taste, an important cultural aspect[@aarons2018], in countries with the most developed music industry.
+The `wrangled_tophits` dataframe contains the audio features (including `valence`, `dancability`, etc.) of the top 50 songs in 6 countries, with 14 columns and 300 rows. The six countries are selected as the size of their music market are by far the largest according to the IFPI data. Most of these audio features are numeric and rated from 0-1, making it easy for cross comparison. Others, such as `track.explicit` and `track.name` are logical or characters. It provide an up-to-date insight on the musical taste, an important cultural aspect[@aarons2018], in countries with the most developed music industry.
 
-Detailed deinition of variables on audio features by the official Spotify API site can be found [here](https://developer.spotify.com/documentation/web-api/reference/get-audio-features)
+The following analysis will be focusing on five dimensions: Dancibility, Valence, Energy, Speachiness and Instrumentalness. They are metrics developed by Spotify that measures audio features on a scale of 0-1. Detailed definition of variables on audio features by the official Spotify API site can be found [here](https://developer.spotify.com/documentation/web-api/reference/get-audio-features).
 
 ```{r}
 summary(wrangled_tophits)%>%
@@ -242,7 +245,7 @@ The following diagram is suitable for showcasing whether specific audio features
 
 -   It is note worthy that Asian countries, such as Japan and South Korea, have a lot less explicit songs in their top 50 list compared to European and American countries.
 
--   Further analysis about correlation can be built upon this,although upon glance tophits in Japan are highly concentrated interms of popularity- most fall between the 70-80 range, while similar phenomenon isn't observed elsewhere.
+-   Further analysis about correlation can be built upon this,although upon glance tophits in Japan are highly concentrated in terms of popularity- most fall between the 70-80 range, while similar phenomenon isn't observed elsewhere.
 
 ```{r}
 #| echo: true
@@ -294,7 +297,7 @@ This diagram shows changes in major music markets and their level of digitizatio
 
 -   It showcased that while US and Japan has two of the largest music markets, they operate in drastically different trends.
 
--   During the process of digitizaiton, US's market continued to grow in size drastically, as showcased by the size of the pink dot.
+-   During the process of digitization, US's market continued to grow in size drastically, as showcased by the size of the pink dot.
 
 -   While US is rapidly digitizing during 2011-2017, Japan's market remained highly physical.
 
@@ -337,7 +340,15 @@ animate(IFPI_graph.animation, renderer = gifski_renderer(),fps=15,duration= 5)
 
 ### B. Reproducibility
 
-Please see the `README.md` file for further information.
+-   the packages used will be loaded via `Groundhog` as they are available on 04-Jan-2023
+
+-   the scraped data are stored in their original form on 14-Jan-2023 in this file
+
+-   the radar chart and the scatter plot are downloadable for future reference
+
+-   Both the app and the interactive report runs on version 2023.09.0+463 (2023.09.0+463) of R-studio.
+
+-   Please see the `README.md` file for further information.
 
 ### C. Critical engagement with AI
 
@@ -707,7 +718,7 @@ plot_ly(tophits_uk, x = ~track.popularity, y = ~danceability, color = ~explicit_
 
 Although there are many times when ChatGPT failed to provide me with a runnable solution (roughly 8 out of 10 times the code won't run), it was suitable for making simple refinements. Compared to solutions on stackoverflow or CRAN, its is tailored to my code and therefore saves the time compared to adapting internet solution to my own code.
 
-I used the explanatory function of ChatGPT as a form of dictionary throughout the process, as it can breaks code chunks down into steps and explain each line. This function allowed me to continuously reinforce my memory of the coding language throughout the process of coding.
+There are other ways in which ChatGPT supported my computational process. I used the explanatory function of ChatGPT as a form of dictionary throughout the process, as it can breaks code chunks down into steps and explain each line. This function allowed me to continuously reinforce my memory of the coding language throughout the process of coding.
 
 ## Part III Server code (view in r studio)
 
@@ -878,7 +889,7 @@ title=paste("2.Characteristic of tophits in different country")
 
 
 
-
+# Download graph------
 # this part is refined by chatGPT. My original code was base on https://community.rstudio.com/t/shiny-download-ggplot/90532/2 which did not ran successfully the first few times. 
 output$downloadRadar <- downloadHandler(
     filename = function() {
